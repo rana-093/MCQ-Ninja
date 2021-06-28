@@ -92,10 +92,10 @@ create table result
 
 create table selectedOptions
 (
-    Result_id     integer not null,
-    answerList_id integer not null,
-    foreign key (Result_id) references result (id),
-    foreign key (answerList_id) references answer (id)
+    result_id     integer not null,
+    answer_id integer not null,
+    foreign key (result_id) references result (id),
+    foreign key (answer_id) references answer (id)
 );
 
 create table userExamRegistration
