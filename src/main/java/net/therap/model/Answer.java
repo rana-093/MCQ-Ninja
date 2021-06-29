@@ -21,9 +21,13 @@ public class Answer implements Serializable {
     @JoinColumn(name = "question_id")
     private Question question;
 
+    @ManyToOne
+    @JoinColumn(name = "userExamReg_id")
+    private UserExamRegistration userExamRegistration;
+
     private String choosenOption;
 
-    private boolean result;
+    private boolean correct;
 
     public Question getQuestion() {
         return question;
@@ -41,12 +45,12 @@ public class Answer implements Serializable {
         this.choosenOption = choosenOption;
     }
 
-    public boolean isResult() {
-        return result;
+    public boolean isCorrect() {
+        return correct;
     }
 
-    public void setResult(boolean result) {
-        this.result = result;
+    public void setCorrect(boolean correct) {
+        this.correct = correct;
     }
 
     public int getId() {

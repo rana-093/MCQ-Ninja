@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author masud.rana
@@ -27,23 +28,8 @@ public class Question implements Serializable {
     @Size(max = 300, message = "not more than length 300")
     private String content;
 
-    @NotNull(message = "option can not be null")
-    @Size(max = 100, message = "not more than length 100")
-    private String optionA;
-
-    @NotNull(message = "option can not be null")
-    @Size(max = 100, message = "not more than length 100")
-    private String optionB;
-
-    @NotNull(message = "option can not be null")
-    @Size(max = 100, message = "not more than length 100")
-    private String optionC;
-
-    @NotNull(message = "option can not be null")
-    @Size(max = 100, message = "not more than length 100")
-    private String optionD;
-
-    private String correctOption;
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
+    private List<Option> optionList;
 
     @Size(max = 500, message = "not more than length 500")
     private String explanation;
@@ -64,46 +50,6 @@ public class Question implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getOptionA() {
-        return optionA;
-    }
-
-    public void setOptionA(String optionA) {
-        this.optionA = optionA;
-    }
-
-    public String getOptionB() {
-        return optionB;
-    }
-
-    public void setOptionB(String optionB) {
-        this.optionB = optionB;
-    }
-
-    public String getOptionC() {
-        return optionC;
-    }
-
-    public void setOptionC(String optionC) {
-        this.optionC = optionC;
-    }
-
-    public String getOptionD() {
-        return optionD;
-    }
-
-    public void setOptionD(String optionD) {
-        this.optionD = optionD;
-    }
-
-    public String getCorrectOption() {
-        return correctOption;
-    }
-
-    public void setCorrectOption(String correctOption) {
-        this.correctOption = correctOption;
     }
 
     public String getExplanation() {
@@ -128,5 +74,13 @@ public class Question implements Serializable {
 
     public void setTopic(Topic topic) {
         this.topic = topic;
+    }
+
+    public List<Option> getOptionList() {
+        return optionList;
+    }
+
+    public void setOptionList(List<Option> optionList) {
+        this.optionList = optionList;
     }
 }

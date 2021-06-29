@@ -44,16 +44,6 @@ create table answer
     FOREIGN KEY (question_id) REFERENCES question (id)
 );
 
-create table exam
-(
-    id        integer not null auto_increment,
-    endDate   date,
-    endTime   datetime,
-    startDate date,
-    startTime datetime,
-    primary key (id)
-);
-
 create table question
 (
     id            integer      not null auto_increment,
@@ -70,6 +60,16 @@ create table question
 );
 
 
+create table exam
+(
+    id        integer not null auto_increment,
+    endDate   date,
+    endTime   datetime,
+    startDate date,
+    startTime datetime,
+    primary key (id)
+);
+
 create table examQuestions
 (
     exam_id     integer not null,
@@ -77,7 +77,6 @@ create table examQuestions
     FOREIGN KEY (exam_id) REFERENCES exam (id),
     foreign key (question_id) references question (id)
 );
-
 
 create table result
 (
