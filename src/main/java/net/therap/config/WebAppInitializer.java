@@ -17,7 +17,6 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(final ServletContext sc) throws ServletException {
-        System.out.println("Here I am!");
         AnnotationConfigWebApplicationContext root =
                 new AnnotationConfigWebApplicationContext();
         root.register(WebConfig.class);

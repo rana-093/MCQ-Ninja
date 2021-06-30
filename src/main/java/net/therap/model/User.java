@@ -17,16 +17,18 @@ public class User {
     private int id;
 
     @NotNull
-    @Size(min = 2, max = 100, message = "Name should be valid in Size")
     private String name;
 
     @NotNull
+    @Size(min = 5, max = 100, message = "Invalid email")
     @Email
     private String email;
 
     @NotNull
     @Size(min = 4, max = 20, message = "Pass should be valid in Size!")
     private String password;
+
+    private boolean active;
 
     public int getId() {
         return id;
@@ -62,5 +64,13 @@ public class User {
 
     public boolean isNew() {
         return this.id == 0;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

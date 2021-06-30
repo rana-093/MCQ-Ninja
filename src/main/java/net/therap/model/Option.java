@@ -10,21 +10,19 @@ import java.io.Serializable;
  * @since 29/6/21
  */
 @Entity
-@Table(name = "option")
+@Table(name = "questionOption")
 public class Option implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull(message = "option can not be null")
     @Size(max = 100, message = "not more than length 100")
     private String content;
 
     private boolean correct;
 
     @ManyToOne
-    @JoinColumn(name = "question_id")
     private Question question;
 
     public int getId() {

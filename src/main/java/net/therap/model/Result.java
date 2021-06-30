@@ -24,14 +24,6 @@ public class Result implements Serializable {
     @OneToOne(fetch = FetchType.EAGER)
     private Exam exam;
 
-    @OneToMany
-    @JoinTable(
-            name = "selectedOptions",
-            joinColumns = @JoinColumn(name = "result_id"),
-            inverseJoinColumns = @JoinColumn(name = "answer_id")
-    )
-    private List<Answer> answerList;
-
     private int score;
 
     public int getId() {
@@ -64,13 +56,5 @@ public class Result implements Serializable {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public List<Answer> getAnswerList() {
-        return answerList;
-    }
-
-    public void setAnswerList(List<Answer> answerList) {
-        this.answerList = answerList;
     }
 }

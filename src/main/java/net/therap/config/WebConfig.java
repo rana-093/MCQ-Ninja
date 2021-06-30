@@ -26,7 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
         InternalResourceViewResolver bean = new InternalResourceViewResolver();
 
         bean.setViewClass(JstlView.class);
-        bean.setPrefix("/WEB-INF/");
+        bean.setPrefix("/WEB-INF/view/");
         bean.setSuffix(".jsp");
 
         return bean;
@@ -35,7 +35,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasenames("classpath:message","classpath:validation");
+        messageSource.setBasenames("classpath:message");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }

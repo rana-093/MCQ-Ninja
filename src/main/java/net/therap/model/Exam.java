@@ -35,11 +35,7 @@ public class Exam implements Serializable {
     private Date endTime;
 
     @OneToMany
-    @JoinTable(
-            name = "examQuestions",
-            joinColumns = @JoinColumn(name = "exam_id"),
-            inverseJoinColumns = @JoinColumn(name = "question_id")
-    )
+    @JoinColumn(name = "exam_id")
     private List<Question> questions;
 
     public List<Question> getQuestions() {

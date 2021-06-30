@@ -60,4 +60,12 @@ public class Answer implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
+    public UserExamRegistration getUserExamRegistration() {
+        return userExamRegistration;
+    }
+
+    public void setUserExamRegistration(UserExamRegistration userExamRegistration) {
+        this.userExamRegistration = userExamRegistration;
+    }
 }

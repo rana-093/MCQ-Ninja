@@ -2,6 +2,8 @@ package net.therap.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -14,13 +16,15 @@ public class Student extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private boolean active;
+    @NotNull
+    @Size(min = 3, max = 15, message = "Contacts should be valid")
+    private String contactNo;
 
-    public boolean isActive() {
-        return active;
+    public String getContactNo() {
+        return contactNo;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
     }
 }
