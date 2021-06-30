@@ -27,7 +27,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<c:url value="registerAdmin"/>">Add a new Admin</a>
                     </li>
-
+                    <li class="nav-item" style="margin-left: auto">
+                        <a class="nav-link" href="<c:url value="logOut"/>">LogOut</a>
+                    </li>
                 </ul>
             </div>
         </nav>
