@@ -31,8 +31,13 @@ public class UserDao {
         return Objects.nonNull(em.find(Student.class, id));
     }
 
-    public User findStudent(int userId) {
+    public Student findStudent(int userId) {
         return em.find(Student.class, userId);
+    }
+
+    public List findAllStudents() {
+        Query allStudents = em.createNamedQuery("findAllStudents");
+        return allStudents.getResultList();
     }
 
     public User findAdmin(int id) {

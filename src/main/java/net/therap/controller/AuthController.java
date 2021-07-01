@@ -1,12 +1,9 @@
 package net.therap.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import net.therap.model.Student;
 import net.therap.model.User;
 import net.therap.service.UserService;
 import net.therap.util.Helper;
-import net.therap.validation.ValidateLogIn;
-import net.therap.validation.ValidateRegister;
+import net.therap.validation.LogInValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -33,7 +29,7 @@ public class AuthController {
     private UserService userService;
 
     @Autowired
-    private ValidateLogIn validateLogIn;
+    private LogInValidator validateLogIn;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {

@@ -8,6 +8,7 @@ import net.therap.util.Helper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -19,6 +20,10 @@ public class UserService {
 
     @Autowired
     private UserDao userDao;
+
+    public Student findStudent(int studentId) {
+        return userDao.findStudent(studentId);
+    }
 
     public boolean doesExist(int id) {
         return Objects.nonNull(userDao.findAdmin(id)) ||
@@ -35,6 +40,10 @@ public class UserService {
             return adminObj;
         }
         return userDao.findByEmail(email, false);
+    }
+
+    public List findAllStudents() {
+        return userDao.findAllStudents();
     }
 
     public void saveOrUpdate(User user) {

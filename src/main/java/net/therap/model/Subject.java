@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author masud.rana
@@ -11,6 +12,8 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "subject")
+@NamedQuery(name = "findAllSubjects",
+        query = "SELECT s FROM Subject s")
 public class Subject implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,5 +40,22 @@ public class Subject implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isNew() {
+        return this.id == 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Subject subject = (Subject) o;
+        return id == subject.id && Objects.equals(name, subject.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

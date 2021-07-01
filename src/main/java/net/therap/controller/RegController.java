@@ -1,10 +1,9 @@
 package net.therap.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import net.therap.model.Admin;
 import net.therap.model.Student;
 import net.therap.service.UserService;
-import net.therap.validation.ValidateRegister;
+import net.therap.validation.RegistrationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,11 +27,11 @@ public class RegController {
     private UserService userService;
 
     @Autowired
-    private ValidateRegister validateRegister;
+    private RegistrationValidator registrationValidator;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.addValidators(validateRegister);
+        binder.addValidators(registrationValidator);
     }
 
     @GetMapping(value = "/home")

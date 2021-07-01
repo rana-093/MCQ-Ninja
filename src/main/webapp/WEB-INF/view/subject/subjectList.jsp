@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="net.therap.util.Helper" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title><spring:message code="title.head"/></title>
+    <title><spring:message code="title.subjecList"/></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
@@ -61,51 +60,53 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/logOut"><spring:message code="header.logout"/></a>
+                <a class="nav-link" href="/logout"><spring:message code="header.logout"/></a>
             </li>
         </ul>
     </div>
 </nav>
-<c:choose>
-    <c:when test='<%=session.getAttribute("role") == Helper.Role.ADMIN%>'>
-        <nav class="navbar navbar-expand-lg navbar-light bg-warning">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav1">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#"><spring:message code="header.home"/> <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<c:url value="registerAdmin"/>">Add a new Admin</a>
-                    </li>
-                    <li class="nav-item" style="margin-left: auto">
-                        <a class="nav-link" href="<c:url value="logOut"/>">LogOut</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </c:when>
-    <c:otherwise>
-        Welcome to the dashBoard!!!
-    </c:otherwise>
-</c:choose>
-
-
+<div>
+    <c:set value="${alert}" var="successAlert"/>
+    <c:if test="${successAlert==1}">
+        <div style="margin: 10px; text-align: center">
+            <p><span style="color: green; "> <spring:message code="subject.success"/></span></p>
+        </div>
+    </c:if>
+</div>
+<div style="margin: 20px">
+    <div>
+        <a class="btn btn-primary" href="<c:url value="subject"/>">
+            <spring:message code="subject.addNewSubject"/></a>
+    </div>
+</div>
 <div class="Wrapper">
     <div class="container">
-        Welcome!!
-    </div>
+        <table class="table table-striped table-bordered table-hover table-sm">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col"><spring:message code="header.name"/></th>
+                <th scope="col"><spring:message code="button.action"/></th>
 
-    <script>
-        let isAlert =
-        <c:out value="${alert}"/>
-        if (isAlert) {
-            alert("Exam is not started YET!");
-        }
-    </script>
+            </tr>
+            </thead>
+            <c:forEach var="subject" items="${subjectList}">
+                <tbody>
+                <tr>
+                    <td><c:out value="${subject.name}"/></td>
+                    <td>
+                        <c:url value="/subject" var="editSubjectUrl">
+                            <c:param name="id" value="${subject.id}"/>
+                        </c:url>
+
+                        <a href="${editSubjectUrl}" class="btn btn-primary" role="button">
+                            <spring:message code="action.edit"/>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </c:forEach>
+        </table>
+    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

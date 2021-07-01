@@ -1,6 +1,7 @@
 package net.therap.model;
 
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -12,6 +13,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "student")
+@NamedQuery(name = "findAllStudents", query = "SELECT s from Student s")
 public class Student extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;

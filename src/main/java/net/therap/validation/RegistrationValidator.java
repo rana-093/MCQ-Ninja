@@ -18,7 +18,7 @@ import java.util.Objects;
  * @since 29/6/21
  */
 @Component
-public class ValidateRegister implements Validator {
+public class RegistrationValidator implements Validator {
 
     @Autowired
     private UserService userService;
