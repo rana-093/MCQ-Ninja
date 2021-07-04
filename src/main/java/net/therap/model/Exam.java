@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,9 @@ import java.util.List;
  */
 @Entity
 @Table(name = "exam")
+@NamedQuery(name = "findAllUpcomingExams", query = "SELECT e FROM Exam e WHERE e.startTime >= current_timestamp ORDER BY e.startTime ASC")
+@NamedQuery(name = "findAllRunningExams", query = "SELECT e FROM Exam e WHERE current_timestamp >= e.startTime AND current_timestamp <= e.endTime ORDER BY e.startTime ASC")
+@NamedQuery(name = "findAllPastExams", query = "SELECT e FROM Exam e WHERE current_timestamp > e.endTime ORDER BY e.startTime ASC")
 public class Exam implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,17 +26,15 @@ public class Exam implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Temporal(TemporalType.DATE)
-    private Date startDate;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date startTime;
 
-    @Temporal(TemporalType.DATE)
-    private Date endDate;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date endTime;
+
+    @OneToOne
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
 
     @OneToMany
     @JoinColumn(name = "exam_id")
@@ -54,12 +56,12 @@ public class Exam implements Serializable {
         this.id = id;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public Date getStartTime() {
@@ -70,19 +72,15 @@ public class Exam implements Serializable {
         this.startTime = startTime;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Topic getTopic() {
+        return topic;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public boolean isNew() {
+        return this.id == 0;
     }
 }

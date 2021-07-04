@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author masud.rana
@@ -17,12 +18,12 @@ public class Option implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Size(max = 100, message = "not more than length 100")
+    @Size(min = 1, max = 100, message = "Invalid Option Size")
     private String content;
 
     private boolean correct;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Question question;
 
     public int getId() {
@@ -55,5 +56,18 @@ public class Option implements Serializable {
 
     public void setQuestion(Question question) {
         this.question = question;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Option option = (Option) o;
+        return id == option.id && correct == option.correct && Objects.equals(content, option.content) && Objects.equals(question, option.question);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, content, correct, question);
     }
 }

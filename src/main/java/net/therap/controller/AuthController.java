@@ -56,7 +56,7 @@ public class AuthController {
         return "redirect:/home";
     }
 
-    @GetMapping(value = "/logOut")
+    @GetMapping(value = "/logout")
     public String logOut(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.invalidate();

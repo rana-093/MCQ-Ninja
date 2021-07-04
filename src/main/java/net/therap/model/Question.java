@@ -1,10 +1,13 @@
 package net.therap.model;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author masud.rana
@@ -12,6 +15,11 @@ import java.util.List;
  */
 @Entity
 @Table(name = "question")
+@NamedQuery(name = "findByTopicId",
+        query = "SELECT q FROM Question q " +
+                "WHERE q.topic.id =:topicId " +
+                "and q.used = false")
+@NamedQuery(name = "findAllQuestions", query = "SELECT q FROM Question q")
 public class Question implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,14 +33,20 @@ public class Question implements Serializable {
     private Topic topic;
 
     @NotNull
-    @Size(max = 300, message = "not more than length 300")
+    @Size(min = 3, max = 300, message = "Content should be valid in Size")
     private String content;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
-    private List<Option> optionList;
+    @Valid
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Option> optionList = new ArrayList<>();
 
-    @Size(max = 500, message = "not more than length 500")
+    @NotNull
+    @Size(min = 8, max = 500, message = "not more than length 500")
     private String explanation;
+
+    @NotNull
+    private int correctOption;
 
     private boolean used;
 
@@ -82,5 +96,35 @@ public class Question implements Serializable {
 
     public void setOptionList(List<Option> optionList) {
         this.optionList = optionList;
+    }
+
+    public void addOption(Option option) {
+        option.setQuestion(this);
+        optionList.add(option);
+    }
+
+    public int getCorrectOption() {
+        return correctOption;
+    }
+
+    public void setCorrectOption(int correctOption) {
+        this.correctOption = correctOption;
+    }
+
+    public boolean isNew() {
+        return this.id == 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Question question = (Question) o;
+        return id == question.id && correctOption == question.correctOption && used == question.used && Objects.equals(topic, question.topic) && Objects.equals(content, question.content) && Objects.equals(optionList, question.optionList) && Objects.equals(explanation, question.explanation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, topic, content, optionList, explanation, correctOption, used);
     }
 }

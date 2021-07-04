@@ -23,7 +23,7 @@ public class TopicDao {
         return em.find(Topic.class, id);
     }
 
-    public List findAll() {
+    public List<Topic> findAll() {
         Query allTopics = em.createNamedQuery("findAllTopics");
         return allTopics.getResultList();
     }
