@@ -40,8 +40,6 @@ public class ExamService {
     }
 
     public void saveOrUpdate(Exam exam) {
-        List<Question> questionList = questionDao.findByTopicId(exam.getTopic().getId());
-        exam.setQuestions(questionList);
         examDao.saveOrUpdate(exam);
     }
 

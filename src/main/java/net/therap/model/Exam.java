@@ -27,7 +27,7 @@ public class Exam implements Serializable {
     private int id;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date startTime;
+    private Date startTime; //int Value
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date endTime;

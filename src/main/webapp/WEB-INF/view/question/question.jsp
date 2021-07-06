@@ -71,7 +71,6 @@
 <div class="Wrapper">
     <div align="center">
         <form:form action="question" method="post" modelAttribute="question">
-            <form:hidden path="id"/>
 
             <spring:message code="header.topic"/><span style="color: red"><spring:message
                 code="prompt.required"/></span>

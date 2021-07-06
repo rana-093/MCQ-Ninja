@@ -21,7 +21,7 @@ public class TopicService {
         return topicDao.find(id);
     }
 
-    public List findAll() {
+    public List<Topic> findAll() {
         return topicDao.findAll();
     }
 

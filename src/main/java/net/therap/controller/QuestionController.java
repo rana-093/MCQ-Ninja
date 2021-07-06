@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.Objects;
  * @since 3/7/21
  */
 @Controller
+@SessionAttributes({"question", "topicList"})
 public class QuestionController {
 
     @Autowired
@@ -37,6 +39,7 @@ public class QuestionController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
+        binder.setDisallowedFields("id");
         binder.registerCustomEditor(Topic.class, topicEditor);
     }
 
@@ -52,18 +55,24 @@ public class QuestionController {
                                int id, Model model) {
         Question question = (id == 0) ? new Question() : questionService.find(id);
         setUpReferenceData(question, model);
+        model.addAttribute("question", question);
         return "question/question";
     }
 
     @PostMapping(value = "/question")
     public String process(@Valid @ModelAttribute("question") Question question,
-                          BindingResult result, Model model) {
+                          BindingResult result,
+                          @SessionAttribute("question") Question q1,
+                          @SessionAttribute("topicList") List<Topic> topicList,
+                          Model model,
+                          SessionStatus status) {
         if (result.hasErrors()) {
-            setUpReferenceData(question, model);
+            model.addAttribute("question", q1);
+            model.addAttribute("topicList", topicList);
             return "question/question";
         }
-        // Option -> Corresponding :ull
         questionService.saveOrUpdate(question);
+        status.setComplete();
         return "redirect:/questionList";
     }
 
@@ -82,7 +91,6 @@ public class QuestionController {
                 question.addOption(option);
             }
         }
-        model.addAttribute("question", question);
         model.addAttribute("topicList", topicList);
     }
 }
