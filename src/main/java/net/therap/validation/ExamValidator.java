@@ -23,7 +23,7 @@ public class ExamValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Exam exam = (Exam) target;
-        System.out.println("In EXAM Validator: ");
+        System.out.println("In EXAM Validator..........");
         if (Objects.nonNull(exam)) {
             if (Objects.isNull(exam.getStartTime())) {
                 errors.rejectValue("startTime", "NOT NULL", "Date should not be null");

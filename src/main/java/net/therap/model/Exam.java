@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -36,9 +37,9 @@ public class Exam implements Serializable {
     @JoinColumn(name = "topic_id")
     private Topic topic;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "exam_id")
-    private List<Question> questions;
+    private List<Question> questions = new ArrayList<>();
 
     public List<Question> getQuestions() {
         return questions;
@@ -47,6 +48,7 @@ public class Exam implements Serializable {
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
+
 
     public int getId() {
         return id;

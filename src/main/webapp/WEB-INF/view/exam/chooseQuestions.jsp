@@ -120,9 +120,11 @@
         <div class="card">
             <div class="card-body">
                 <form:form action="/examTopic" method="post" modelAttribute="exam">
-                    <c:out value="${exam.topic.name}" />
-                    <form:select multiple="true" path="questions" items="${questionList}" itemLabel="content"
-                                 itemValue="id"/>
+                    <c:out value="${exam.topic.name}"/>
+
+                    <form:select multiple="true" path="questions" items="${questionList}"
+                                 itemLabel="content" itemValue="id" cssStyle="width: 100%"/>
+                    <button type="submit" class="btn btn-primary">GO!</button>
                 </form:form>
             </div>
         </div>

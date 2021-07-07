@@ -26,7 +26,8 @@ public class QuestionService {
         return questionDao.findAll();
     }
 
-    public List findByTopicId(int id) {
+    public List<Question> findByTopicId(int id) {
+        System.out.println("In SERVICE "+id);
         return questionDao.findByTopicId(id);
     }
 

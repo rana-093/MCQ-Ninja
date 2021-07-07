@@ -3,11 +3,13 @@ package net.therap.controller;
 import net.therap.model.Exam;
 import net.therap.model.Question;
 import net.therap.model.Topic;
+import net.therap.propertyEditor.QuestionEditor;
 import net.therap.propertyEditor.TopicEditor;
 import net.therap.service.ExamService;
 import net.therap.service.QuestionService;
 import net.therap.service.TopicService;
 import net.therap.validation.ExamValidator;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,7 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author masud.rana
@@ -47,19 +50,22 @@ public class ExamController {
     @Autowired
     private ExamValidator examValidator;
 
+    @Autowired
+    private QuestionEditor questionEditor;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Topic.class, topicEditor);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         simpleDateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(simpleDateFormat, false));
-        //   binder.addValidators(examValidator);
-        // binder.setDisallowedFields("id");
+        binder.registerCustomEditor(Question.class, questionEditor);
+       // binder.addValidators(examValidator);
+        binder.setDisallowedFields("id");
     }
 
     @GetMapping(value = "/examList")
     public String showAll(Model model) {
-        System.out.println("ejehehehehhehe");
         List<Exam> runningExams = examService.findAllRunningExams();
         List<Exam> upcomingExams = examService.findAllUpcomingExams();
         List<Exam> pastExams = examService.findAllPastExams();
@@ -87,27 +93,30 @@ public class ExamController {
             model.addAttribute("exam", exam);
             return "exam/exam";
         }
+        System.out.println("id: "+exam.getId()+" , "+exam);
         model.addAttribute("exam", exam);
         return "redirect:/examTopic";
     }
 
     @GetMapping(value = "/examTopic")
-    public String setExam(@ModelAttribute("exam") Exam exam, Model model) {
-        List<Question> questionList = questionService.findByTopicId(exam.getId());
+    public String setExam(@SessionAttribute("exam") Exam exam, Model model) {
+        List<Question> questionList = questionService.findByTopicId(exam.getTopic().getId());
         model.addAttribute("exam", exam);
-        model.addAttribute("questionList", questionList);
-        for (Question question : questionList) {
-            System.out.println(question.getContent() + " , , , , ");
+        if (Objects.nonNull(exam.getQuestions())) {
+            model.addAttribute("usedQuestions", exam.getQuestions());
         }
+        model.addAttribute("questionList", questionList);
         return "exam/chooseQuestions";
     }
 
     @PostMapping(value = "/examTopic")
-    public String setQuestions(@SessionAttribute("exam") Exam exam) {
-        for (Question question : exam.getQuestions()) {
-            System.out.println("id: " + question.getId() + " , content: " + question.getContent());
+    public String setQuestions(@ModelAttribute("exam") Exam exam) {
+        System.out.println(exam.getQuestions().size()+"=============>");
+        if (exam.getQuestions().size() == 0) {
+            return "exam/chooseQuestions";
         }
-        return "Okaaya";
+        examService.saveOrUpdate(exam);
+        return "redirect:/examList";
     }
 
     private void setUpReferenceData(Model model) {

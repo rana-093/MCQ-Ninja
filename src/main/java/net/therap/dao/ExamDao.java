@@ -1,6 +1,7 @@
 package net.therap.dao;
 
 import net.therap.model.Exam;
+import net.therap.model.Question;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +43,7 @@ public class ExamDao {
     @Transactional
     public void saveOrUpdate(Exam exam) {
         if (exam.isNew()) {
-            System.out.println(exam.getStartTime());
+            System.out.println("Okayayyayayyayyya");
             em.persist(exam);
         } else {
             em.merge(exam);

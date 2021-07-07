@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,8 +30,9 @@ public class QuestionDao {
         return questionList.getResultList();
     }
 
-    public List findByTopicId(int id) {
-        Query questionList = em.createNamedQuery("findByTopicId");
+    public List<Question> findByTopicId(int id) {
+        System.out.println("In DAO: " + id);
+        TypedQuery<Question> questionList = em.createNamedQuery("findByTopicId", Question.class);
         questionList.setParameter("topicId", id);
         return questionList.getResultList();
     }

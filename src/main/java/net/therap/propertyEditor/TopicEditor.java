@@ -26,6 +26,7 @@ public class TopicEditor extends PropertyEditorSupport {
     @Override
     public void setAsText(String topicId) throws IllegalArgumentException {
         int id = Integer.valueOf(topicId);
+        System.out.println("id: "+id);
         Topic topic = topicDao.find(id);
         setValue(topic);
     }

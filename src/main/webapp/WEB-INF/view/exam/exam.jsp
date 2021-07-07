@@ -77,16 +77,16 @@
                 <form:form action="/exam" method="post" modelAttribute="exam">
                     <form:hidden path="id"/>
 
-<%--                    <div class="form-group row">--%>
-<%--                        <form:label path="startDate" class="col-sm-2 col-form-label">--%>
-<%--                            <spring:message code="exam.startTime"/>--%>
-<%--                        </form:label>--%>
-<%--                        <div class="col-sm-7">--%>
-<%--                            <form:input type="date" path="startDate" cssClass="form-control"--%>
-<%--                                        placeholder="Enter Start Time(mm/dd/yyyy,hh:mm,AM/PM)"/>--%>
-<%--                            <form:errors path="startDate" cssStyle="color: #ff0000;"/>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
+                    <%--                    <div class="form-group row">--%>
+                    <%--                        <form:label path="startDate" class="col-sm-2 col-form-label">--%>
+                    <%--                            <spring:message code="exam.startTime"/>--%>
+                    <%--                        </form:label>--%>
+                    <%--                        <div class="col-sm-7">--%>
+                    <%--                            <form:input type="date" path="startDate" cssClass="form-control"--%>
+                    <%--                                        placeholder="Enter Start Time(mm/dd/yyyy,hh:mm,AM/PM)"/>--%>
+                    <%--                            <form:errors path="startDate" cssStyle="color: #ff0000;"/>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
 
                     <div class="form-group row">
                         <form:label path="startTime" class="col-sm-2 col-form-label">
@@ -117,7 +117,7 @@
                             <form:select path="topic" items="${topicList}" itemValue="id" itemLabel="name"/>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary"><spring:message code="exam.action.setExam"/></button>
+                    <button type="submit" class="btn btn-primary">NEXT</button>
                 </form:form>
             </div>
         </div>

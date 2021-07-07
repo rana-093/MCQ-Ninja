@@ -1,9 +1,11 @@
 package net.therap.controller;
 
+import net.therap.model.Exam;
 import net.therap.model.Option;
 import net.therap.model.Question;
 import net.therap.model.Topic;
 import net.therap.propertyEditor.TopicEditor;
+import net.therap.service.ExamService;
 import net.therap.service.QuestionService;
 import net.therap.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,9 @@ public class QuestionController {
 
     @Autowired
     private TopicService topicService;
+
+    @Autowired
+    private ExamService examService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -76,10 +81,22 @@ public class QuestionController {
         return "redirect:/questionList";
     }
 
-    @PostMapping(value = "/questionRemove")
+    @GetMapping(value = "/questionRemove")
     public String remove(@RequestParam("id") int questionId) {
         questionService.remove(questionId);
         return "redirect:/questionList";
+    }
+
+    @GetMapping(value = "/removeFromExam/{examId}")
+    public void removeFromExam(@RequestParam("id") int id, @PathVariable("examId") int examId) {
+        Exam exam = examService.find(examId);
+        List<Question> questions = exam.getQuestions();
+        for (int i = 0; i < questions.size(); i++) {
+            if (questions.get(i).getId() == id) {
+                questions.remove(i);
+            }
+        }
+        examService.saveOrUpdate(exam);
     }
 
     private void setUpReferenceData(Question question, Model model) {

@@ -79,6 +79,7 @@ public class Question implements Serializable {
     }
 
     public void setUsed(boolean used) {
+        System.out.println("USED: " + used);
         this.used = used;
     }
 

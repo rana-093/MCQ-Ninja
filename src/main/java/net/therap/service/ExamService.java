@@ -40,6 +40,9 @@ public class ExamService {
     }
 
     public void saveOrUpdate(Exam exam) {
+        for (Question question : exam.getQuestions()) {
+            questionDao.saveOrUpdate(question);
+        }
         examDao.saveOrUpdate(exam);
     }
 
