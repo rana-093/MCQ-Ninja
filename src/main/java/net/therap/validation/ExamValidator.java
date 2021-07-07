@@ -23,20 +23,17 @@ public class ExamValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Exam exam = (Exam) target;
-        System.out.println("In EXAM Validator..........");
-        if (Objects.nonNull(exam)) {
-            if (Objects.isNull(exam.getStartTime())) {
-                errors.rejectValue("startTime", "NOT NULL", "Date should not be null");
+        if (Objects.isNull(exam.getStartTime())) {
+            errors.rejectValue("startTime", "NOT NULL", "Date should not be null");
+        }
+        if (Objects.isNull(exam.getEndTime())) {
+            errors.rejectValue("endTime", "NOT NULL", "Date should not be null");
+        } else {
+            if (exam.getEndTime().before(exam.getStartTime())) {
+                errors.rejectValue("endTime", "DOES NOT EXIST", "End date should be greater than Start Date");
             }
-            if (Objects.isNull(exam.getEndTime())) {
-                errors.rejectValue("endTime", "NOT NULL", "Date should not be null");
-            } else {
-                if (exam.getEndTime().before(exam.getStartTime())) {
-                    errors.rejectValue("endTime", "DOES NOT EXIST", "End date should be greater than Start Date");
-                }
-                if (exam.getStartTime().before(new Date())) {
-                    errors.rejectValue("startTime", "INVALID", "Start Time should be >= than Current Time!");
-                }
+            if (exam.getStartTime().before(new Date())) {
+                errors.rejectValue("startTime", "INVALID", "Start Time should be >= than Current Time!");
             }
         }
     }

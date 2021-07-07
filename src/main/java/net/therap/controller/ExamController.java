@@ -60,7 +60,7 @@ public class ExamController {
         simpleDateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(simpleDateFormat, false));
         binder.registerCustomEditor(Question.class, questionEditor);
-       // binder.addValidators(examValidator);
+        binder.addValidators(examValidator);
         binder.setDisallowedFields("id");
     }
 
@@ -89,33 +89,26 @@ public class ExamController {
                           @SessionAttribute("topicList") List<Topic> topicList,
                           Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("topicList", topicList);
-            model.addAttribute("exam", exam);
             return "exam/exam";
         }
-        System.out.println("id: "+exam.getId()+" , "+exam);
-        model.addAttribute("exam", exam);
         return "redirect:/examTopic";
     }
 
     @GetMapping(value = "/examTopic")
-    public String setExam(@SessionAttribute("exam") Exam exam, Model model) {
+    public String setExam(@ModelAttribute("exam") Exam exam, Model model) {
         List<Question> questionList = questionService.findByTopicId(exam.getTopic().getId());
-        model.addAttribute("exam", exam);
-        if (Objects.nonNull(exam.getQuestions())) {
-            model.addAttribute("usedQuestions", exam.getQuestions());
-        }
+        questionList.addAll(exam.getQuestions());
         model.addAttribute("questionList", questionList);
         return "exam/chooseQuestions";
     }
 
     @PostMapping(value = "/examTopic")
-    public String setQuestions(@ModelAttribute("exam") Exam exam) {
-        System.out.println(exam.getQuestions().size()+"=============>");
+    public String setQuestions(@Valid @ModelAttribute("exam") Exam exam, SessionStatus status) {
         if (exam.getQuestions().size() == 0) {
             return "exam/chooseQuestions";
         }
         examService.saveOrUpdate(exam);
+        status.setComplete();
         return "redirect:/examList";
     }
 

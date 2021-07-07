@@ -23,7 +23,7 @@ public class Option implements Serializable {
 
     private boolean correct;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Question question;
 
     public int getId() {

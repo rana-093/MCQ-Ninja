@@ -25,7 +25,7 @@ public class SubjectEditor extends PropertyEditorSupport {
 
     @Override
     public void setAsText(String subjectId) throws IllegalArgumentException {
-        int id = Integer.valueOf(subjectId);
+        int id = Integer.parseInt(subjectId);
         Subject subject = subjectDao.find(id);
         setValue(subject);
     }

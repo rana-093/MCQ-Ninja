@@ -75,7 +75,6 @@
         <div class="card">
             <div class="card-body">
                 <form:form action="/exam" method="post" modelAttribute="exam">
-                    <form:hidden path="id"/>
 
                     <%--                    <div class="form-group row">--%>
                     <%--                        <form:label path="startDate" class="col-sm-2 col-form-label">--%>
