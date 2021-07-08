@@ -60,7 +60,7 @@ public class ExamController {
         simpleDateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(simpleDateFormat, false));
         binder.registerCustomEditor(Question.class, questionEditor);
-        binder.addValidators(examValidator);
+        // binder.addValidators(examValidator);
         binder.setDisallowedFields("id");
     }
 
@@ -85,9 +85,7 @@ public class ExamController {
 
     @PostMapping(value = "/exam")
     public String process(@Valid @ModelAttribute("exam") Exam exam,
-                          BindingResult result,
-                          @SessionAttribute("topicList") List<Topic> topicList,
-                          Model model) {
+                          BindingResult result) {
         if (result.hasErrors()) {
             return "exam/exam";
         }
@@ -103,9 +101,17 @@ public class ExamController {
     }
 
     @PostMapping(value = "/examTopic")
-    public String setQuestions(@Valid @ModelAttribute("exam") Exam exam, SessionStatus status) {
+    public String setQuestions(@Valid @ModelAttribute("exam") Exam exam,
+                               @SessionAttribute("questionList") List<Question> questionList,
+                               SessionStatus status) {
         if (exam.getQuestions().size() == 0) {
             return "exam/chooseQuestions";
+        }
+        for (Question question : questionList) {
+            if (!exam.getQuestions().contains(question)) {
+                question.setUsed(false);
+                questionService.saveOrUpdate(question);
+            }
         }
         examService.saveOrUpdate(exam);
         status.setComplete();

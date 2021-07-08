@@ -130,7 +130,7 @@
                                 <c:when test="${question.used}">
                                     <form:option value="${question.id}">
                                         <c:out value="${question.content}"/>
-                                        <div cssStyle="background-color: green"> ✓ </div>
+                                        <div cssStyle="background-color: green"> ✓</div>
                                     </form:option>
                                 </c:when>
                                 <c:otherwise>
