@@ -2,6 +2,7 @@ package net.therap.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -27,6 +28,10 @@ public class Exam implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotNull
+    @Size(min = 3, max = 100, message = "Exam Name Should be within 3 & 100")
+    private String name;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date startTime; //int Value
 
@@ -39,7 +44,7 @@ public class Exam implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "exam_id")
-    private List<Question> questions = new ArrayList<>();
+    private List<Question> questions;
 
     public List<Question> getQuestions() {
         return questions;
@@ -49,6 +54,11 @@ public class Exam implements Serializable {
         this.questions = questions;
     }
 
+    public Exam() {
+        this.questions = new ArrayList<>();
+        this.topic = new Topic();
+        this.id = 0;
+    }
 
     public int getId() {
         return id;
@@ -82,7 +92,29 @@ public class Exam implements Serializable {
         this.topic = topic;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Exam{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", topic=" + topic +
+                ", questions=" + questions +
+                '}';
+    }
+
     public boolean isNew() {
         return this.id == 0;
     }
+
+
 }

@@ -41,6 +41,7 @@ public class ExamService {
 
     public void saveOrUpdate(Exam exam) {
         for (Question question : exam.getQuestions()) {
+            question.setUsed(true);
             questionDao.saveOrUpdate(question);
         }
         examDao.saveOrUpdate(exam);

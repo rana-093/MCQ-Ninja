@@ -119,22 +119,18 @@
         <p style="color: darkblue; font-size: larger"><spring:message code="exam.runningExam"/></p>
         <div class="card">
             <div class="card-body">
-                <form:form action="/examTopic" method="post" modelAttribute="exam">
-                    <c:out value="${exam.topic.name}"/>
-
-                    <%--                    <form:select multiple="true" path="questions" items="${questionList}"--%>
-                    <%--                                 itemLabel="content" itemValue="id" cssStyle="width: 100%"/>--%>
-                    <form:select path="questions" id="status" multiple="true" cssStyle="width: 100%">
-                        <c:forEach items="${questionList}" var="question">
+                <form:form action="/examTopic" method="post" modelAttribute="examCommand">
+                    <c:out value="${examCommand.exam.topic.name}"/>
+                    <form:select path="exam.questions" id="status" multiple="true" cssStyle="width: 100%">
+                        <c:forEach items="${examCommand.questionList}" var="question">
                             <c:choose>
                                 <c:when test="${question.used}">
                                     <form:option value="${question.id}">
-                                        <c:out value="${question.content}"/>
-                                        <div cssStyle="background-color: green"> ✓</div>
+                                        <c:out value="${question.content}"/> ✓
                                     </form:option>
                                 </c:when>
                                 <c:otherwise>
-                                    <form:option value="${question.id}" cssStyle="background-color: red">
+                                    <form:option value="${question.id}">
                                         <c:out value="${question.content}"/>
                                     </form:option>
                                 </c:otherwise>

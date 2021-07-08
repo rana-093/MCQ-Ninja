@@ -1,5 +1,6 @@
 package net.therap.controller;
 
+import net.therap.command.ExamCommand;
 import net.therap.model.Exam;
 import net.therap.model.Question;
 import net.therap.model.Topic;
@@ -32,7 +33,7 @@ import java.util.Objects;
  * @since 4/7/21
  */
 @Controller
-@SessionAttributes({"topicList", "exam", "questionList"})
+@SessionAttributes({"examCommand"})
 public class ExamController {
 
     @Autowired
@@ -60,7 +61,7 @@ public class ExamController {
         simpleDateFormat.setLenient(false);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(simpleDateFormat, false));
         binder.registerCustomEditor(Question.class, questionEditor);
-        // binder.addValidators(examValidator);
+        binder.addValidators(examValidator);
         binder.setDisallowedFields("id");
     }
 
@@ -77,49 +78,52 @@ public class ExamController {
 
     @GetMapping(value = "/exam")
     public String show(@RequestParam(value = "id", required = false, defaultValue = "0") int id, Model model) {
+        ExamCommand examCommand = new ExamCommand();
         Exam exam = (id == 0) ? new Exam() : examService.find(id);
-        setUpReferenceData(model);
-        model.addAttribute("exam", exam);
+        examCommand.setExam(exam);
+        List<Topic> topicList = topicService.findAll();
+        examCommand.setTopicList(topicList);
+        List<Question> questions = exam.getQuestions();
+        questions.addAll(questionService.findByTopicId(exam.getTopic().getId()));
+        examCommand.setQuestionList(questions);
+        model.addAttribute("examCommand", examCommand);
         return "exam/exam";
     }
 
     @PostMapping(value = "/exam")
-    public String process(@Valid @ModelAttribute("exam") Exam exam,
+    public String process(@Valid @ModelAttribute("examCommand") ExamCommand examCommand,
                           BindingResult result) {
         if (result.hasErrors()) {
             return "exam/exam";
+        }
+        if (examCommand.getQuestionList().size() == 0) { //new Exam create kortese eikhane.
+            examCommand.setQuestionList(questionService.findByTopicId(
+                    examCommand.getExam().
+                            getTopic().
+                            getId()));
         }
         return "redirect:/examTopic";
     }
 
     @GetMapping(value = "/examTopic")
-    public String setExam(@ModelAttribute("exam") Exam exam, Model model) {
-        List<Question> questionList = questionService.findByTopicId(exam.getTopic().getId());
-        questionList.addAll(exam.getQuestions());
-        model.addAttribute("questionList", questionList);
+    public String setExam(@ModelAttribute("examCommand") ExamCommand examCommand) {
         return "exam/chooseQuestions";
     }
 
     @PostMapping(value = "/examTopic")
-    public String setQuestions(@Valid @ModelAttribute("exam") Exam exam,
-                               @SessionAttribute("questionList") List<Question> questionList,
+    public String setQuestions(@Valid @ModelAttribute("examCommand") ExamCommand examCommand,
                                SessionStatus status) {
-        if (exam.getQuestions().size() == 0) {
+        if (examCommand.getQuestionList().size() == 0) {
             return "exam/chooseQuestions";
         }
-        for (Question question : questionList) {
-            if (!exam.getQuestions().contains(question)) {
+        for (Question question : examCommand.getQuestionList()) {
+            if (!examCommand.getExam().getQuestions().contains(question)) {
                 question.setUsed(false);
                 questionService.saveOrUpdate(question);
             }
         }
-        examService.saveOrUpdate(exam);
+        examService.saveOrUpdate(examCommand.getExam());
         status.setComplete();
         return "redirect:/examList";
-    }
-
-    private void setUpReferenceData(Model model) {
-        List<Topic> topicList = topicService.findAll();
-        model.addAttribute("topicList", topicList);
     }
 }

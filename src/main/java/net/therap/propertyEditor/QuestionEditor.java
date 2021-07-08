@@ -29,7 +29,6 @@ public class QuestionEditor extends PropertyEditorSupport {
     public void setAsText(String subjectId) throws IllegalArgumentException {
         int id = Integer.parseInt(subjectId);
         Question question = questionDao.find(id);
-        question.setUsed(true);
         setValue(question);
     }
 }

@@ -14,7 +14,7 @@
 <body class="Wrapper">
 <div class="container">
     <h1 style="color: red">404 Not Found!</h1>
-    <h1 style="color: red">Requested Page Not Found!</h1>
+    <h1 style="color: red">Requested Page Not Found! or Not Enough Data to process further request!</h1>
     <c:url value="/home" var="userHome"/>
 
     <a href="${userHome}">

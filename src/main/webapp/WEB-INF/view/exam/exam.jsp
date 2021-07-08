@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <html>
 <head>
     <title>
@@ -74,7 +75,7 @@
         <h1><spring:message code="exam.setExam"/></h1>
         <div class="card">
             <div class="card-body">
-                <form:form action="/exam" method="post" modelAttribute="exam">
+                <form:form action="/exam" method="post" modelAttribute="examCommand">
 
                     <%--                    <div class="form-group row">--%>
                     <%--                        <form:label path="startDate" class="col-sm-2 col-form-label">--%>
@@ -88,34 +89,51 @@
                     <%--                    </div>--%>
 
                     <div class="form-group row">
-                        <form:label path="startTime" class="col-sm-2 col-form-label">
-                            <spring:message code="exam.startTime"/>
+                        <form:label path="exam.name" class="col-sm-2 col-form-label">
+                            Enter EXAM Name:
                         </form:label>
                         <div class="col-sm-7">
-                            <form:input type="datetime-local" path="startTime" cssClass="form-control"
-                                        placeholder="Enter Start Time(mm/dd/yyyy,hh:mm,AM/PM)"/>
-                            <form:errors path="startTime" cssStyle="color: #ff0000;"/>
+                            <form:input path="exam.name" cssClass="form-control"
+                                        placeholder="Enter Name"/>
+                            <form:errors path="exam.name" cssStyle="color: #ff0000;"/>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <form:label path="endTime" class="col-sm-2 col-form-label">
+                        <form:label path="exam.startTime" class="col-sm-2 col-form-label">
+                            <spring:message code="exam.startTime"/>
+                        </form:label>
+                        <div class="col-sm-7">
+                            <form:input type="datetime-local" path="exam.startTime" cssClass="form-control"
+                                        placeholder="Enter Start Time(mm/dd/yyyy,hh:mm,AM/PM)"/>
+                            <form:errors path="exam.startTime" cssStyle="color: #ff0000;"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <form:label path="exam.endTime" class="col-sm-2 col-form-label">
                             <spring:message code="exam.endTime"/>
                         </form:label>
                         <div class="col-sm-7">
-                            <form:input type="datetime-local" path="endTime" cssClass="form-control"
+                            <form:input type="datetime-local" path="exam.endTime" cssClass="form-control"
                                         placeholder="Enter End Time(mm/dd/yyyy,hh:mm,AM/PM)"/>
-                            <form:errors path="endTime" cssStyle="color: #ff0000;"/>
+                            <form:errors path="exam.endTime" cssStyle="color: #ff0000;"/>
                         </div>
                     </div>
+
                     <div class="form-group row">
-                        <form:label path="topic" class="col-sm-2 col-form-label">
+                        <form:label path="exam.topic" class="col-sm-2 col-form-label">
                             <spring:message code="exam.topicPrompt"/>
                         </form:label>
                         <div class="col-sm-7">
-                            <form:select path="topic" items="${topicList}" itemValue="id" itemLabel="name"/>
+                            <form:select path="exam.topic">
+                                <c:forEach items="${examCommand.topicList}" var="topic">
+                                    <form:option label="${topic.name}" value="${topic.id}"/>
+                                </c:forEach>
+                            </form:select>
                         </div>
                     </div>
+
                     <button type="submit" class="btn btn-primary">NEXT</button>
                 </form:form>
             </div>

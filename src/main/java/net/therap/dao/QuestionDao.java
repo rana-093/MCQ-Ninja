@@ -31,7 +31,6 @@ public class QuestionDao {
     }
 
     public List<Question> findByTopicId(int id) {
-        System.out.println("In DAO: " + id);
         TypedQuery<Question> questionList = em.createNamedQuery("findByTopicId", Question.class);
         questionList.setParameter("topicId", id);
         return questionList.getResultList();
