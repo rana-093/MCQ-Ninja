@@ -16,7 +16,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
+    @Size(min = 3, max = 100, message = "Name should be valid in Size!")
     private String name;
 
     @NotNull

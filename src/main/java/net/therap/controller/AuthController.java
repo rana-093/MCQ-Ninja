@@ -34,6 +34,7 @@ public class AuthController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(validateLogIn);
+        binder.setDisallowedFields("name");
     }
 
     @GetMapping(value = "/login")
@@ -46,13 +47,15 @@ public class AuthController {
     public String process(@Valid @ModelAttribute("user") User user,
                           BindingResult result, HttpServletRequest request) {
         if (result.hasErrors()) {
+            System.out.println(result.getAllErrors());
             return "auth/logIn";
         }
         User currentUser = userService.findByEmail(user.getEmail());
         boolean isAdmin = userService.isAdmin(currentUser.getId());
         HttpSession session = request.getSession();
         session.setAttribute("role", (isAdmin) ? Helper.Role.ADMIN : Helper.Role.STUDENT);
-        session.setAttribute("userId", user.getId());
+        System.out.println("-----------> " + currentUser.getId());
+        session.setAttribute("userId", currentUser.getId());
         return "redirect:/home";
     }
 

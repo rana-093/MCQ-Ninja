@@ -56,7 +56,7 @@ public class Exam implements Serializable {
 
     public Exam() {
         this.questions = new ArrayList<>();
-        this.topic = new Topic();
+        this.topic = new Topic(); //Remove
         this.id = 0;
     }
 

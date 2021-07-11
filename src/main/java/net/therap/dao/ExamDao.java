@@ -44,7 +44,6 @@ public class ExamDao {
     @Transactional
     public void saveOrUpdate(Exam exam) {
         if (exam.isNew()) {
-            System.out.println("Okayayyayayyayyya");
             em.persist(exam);
         } else {
             em.merge(exam);

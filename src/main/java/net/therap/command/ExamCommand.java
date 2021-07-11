@@ -5,6 +5,7 @@ import net.therap.model.Question;
 import net.therap.model.Topic;
 
 import javax.validation.Valid;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,9 @@ import java.util.List;
  * @author masud.rana
  * @since 8/7/21
  */
-public class ExamCommand {
+public class ExamCommand implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private List<Topic> topicList;
 

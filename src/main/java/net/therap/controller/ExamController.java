@@ -94,6 +94,7 @@ public class ExamController {
     public String process(@Valid @ModelAttribute("examCommand") ExamCommand examCommand,
                           BindingResult result) {
         if (result.hasErrors()) {
+            System.out.println(result.getAllErrors());
             return "exam/exam";
         }
         if (examCommand.getQuestionList().size() == 0) { //new Exam create kortese eikhane.
@@ -117,7 +118,10 @@ public class ExamController {
             return "exam/chooseQuestions";
         }
         for (Question question : examCommand.getQuestionList()) {
-            if (!examCommand.getExam().getQuestions().contains(question)) {
+            if ((!examCommand.getExam().
+                    getQuestions().
+                    contains(question))
+                    && question.isUsed()) {
                 question.setUsed(false);
                 questionService.saveOrUpdate(question);
             }
