@@ -31,16 +31,20 @@
             <form:form action="/mcq" method="post" modelAttribute="mcqCommand" id="mcqForm" name="mcqForm">
 
                 <c:forEach items="${mcqCommand.questionCommandList}" var="questionCommand" varStatus="status">
-
+                    <form:hidden path="questionCommandList[${status.index}].question.id"/>
                     <form:input path="questionCommandList[${status.index}].question.content" readonly="true"
                                 cssStyle="width: 100%; margin-top: 15px"/>
-                    <form:radiobutton path="questionCommandList[${status.index}].choosenOp" value="A"/><c:out
+                    <form:radiobutton path="questionCommandList[${status.index}].choosenOp"
+                                      value="${questionCommand.question.optionList.get(0).content}"/><c:out
                         value="${questionCommand.question.optionList.get(0).content}"/> <br>
-                    <form:radiobutton path="questionCommandList[${status.index}].choosenOp" value="B"/> <c:out
+                    <form:radiobutton path="questionCommandList[${status.index}].choosenOp"
+                                      value="${questionCommand.question.optionList.get(1).content}"/> <c:out
                         value="${questionCommand.question.optionList.get(1).content}"/><br>
-                    <form:radiobutton path="questionCommandList[${status.index}].choosenOp" value="C"/><c:out
+                    <form:radiobutton path="questionCommandList[${status.index}].choosenOp"
+                                      value="${questionCommand.question.optionList.get(2).content}"/><c:out
                         value="${questionCommand.question.optionList.get(2).content}"/> <br>
-                    <form:radiobutton path="questionCommandList[${status.index}].choosenOp" value="D"/><c:out
+                    <form:radiobutton path="questionCommandList[${status.index}].choosenOp"
+                                      value="${questionCommand.question.optionList.get(3).content}"/><c:out
                         value="${questionCommand.question.optionList.get(3).content}"/> <br>
 
                 </c:forEach>
@@ -52,8 +56,8 @@
 
 <script>
     let day1 = new Date();
-    let day2 = new Date(<c:out value="${endTime}"/>);
-
+    let day2 = new Date(<c:out value="${date}"/>);
+    console.log("Okay: " + day2 + " ===> " + day1);
     let duration = Math.floor(Math.abs(day2 - day1) / 1000);
     const counter = document.getElementById('counter');
     let x = setInterval(updateCountDown, 1000);
@@ -73,8 +77,8 @@
             counter.innerHTML = "Time is up. Exam Ended!";
             let Y = document.getElementById("mcqForm");
             console.log("Y: " + Y);
-          //  document.mcqForm.submit();
-          //  document.getElementById("mcqForm").submit();
+            //  document.mcqForm.submit();
+            //  document.getElementById("mcqForm").submit();
         }
     }
 </script>

@@ -10,12 +10,17 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.orm.hibernate5.support.OpenSessionInViewFilter;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import sun.security.util.SecurityProperties;
+
+import javax.servlet.DispatcherType;
 
 /**
  * @author masud.rana
@@ -50,15 +55,15 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
 
-//    @Bean
-//    public FilterRegistrationBean registerOpenSessionInViewFilterBean() {
-//        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-//        OpenSessionInViewFilter filter = new OpenSessionInViewFilter();
-//        registrationBean.setFilter(filter);
-//        registrationBean.setOrder(5);
-//        return registrationBean;
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry interceptorRegistry) {
+        interceptorRegistry.addWebRequestInterceptor(openEntityManagerInViewInterceptor());
+    }
 
+    @Bean
+    public OpenEntityManagerInViewInterceptor openEntityManagerInViewInterceptor() {
+        return new OpenEntityManagerInViewInterceptor();
+    }
 
     @Override
     public void addFormatters(FormatterRegistry registry) {

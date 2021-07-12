@@ -21,7 +21,7 @@ public class Answer implements Serializable {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userExamReg_id")
     private UserExamRegistration userExamRegistration;
 
@@ -67,5 +67,9 @@ public class Answer implements Serializable {
 
     public void setUserExamRegistration(UserExamRegistration userExamRegistration) {
         this.userExamRegistration = userExamRegistration;
+    }
+
+    public boolean isNew() {
+        return this.id == 0;
     }
 }

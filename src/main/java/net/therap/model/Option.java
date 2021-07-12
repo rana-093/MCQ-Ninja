@@ -12,6 +12,8 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "questionOption")
+@NamedQuery(name = "findByQuestion",
+        query = "SELECT o FROM Option o WHERE o.question.id =:questionId")
 public class Option implements Serializable {
 
     @Id
@@ -23,7 +25,7 @@ public class Option implements Serializable {
 
     private boolean correct;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Question question;
 
     public int getId() {

@@ -37,7 +37,7 @@ public class Question implements Serializable {
     private String content;
 
     @Valid
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER,
+    @OneToMany(mappedBy = "question",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Option> optionList = new ArrayList<>();
 

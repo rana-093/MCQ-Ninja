@@ -57,4 +57,8 @@ public class Result implements Serializable {
     public void setScore(int score) {
         this.score = score;
     }
+
+    public boolean isNew() {
+        return this.id == 0;
+    }
 }

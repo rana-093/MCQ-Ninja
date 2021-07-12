@@ -76,6 +76,7 @@ public class QuestionController {
             model.addAttribute("topicList", topicList);
             return "question/question";
         }
+        System.out.println("IN POST METHOD...!");
         questionService.saveOrUpdate(question);
         status.setComplete();
         return "redirect:/questionList";
