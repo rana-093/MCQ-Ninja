@@ -50,8 +50,9 @@ public class ExamDao {
         }
     }
 
+    @Transactional
     public void remove(int id) {
-        Exam exam = em.getReference(Exam.class, id);
+        Exam exam = em.find(Exam.class, id);
         if (Objects.nonNull(exam)) {
             em.remove(exam);
         }

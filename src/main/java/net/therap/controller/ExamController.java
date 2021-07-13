@@ -79,13 +79,27 @@ public class ExamController {
     @GetMapping(value = "/exam")
     public String show(@RequestParam(value = "id", required = false, defaultValue = "0") int id, Model model) {
         ExamCommand examCommand = new ExamCommand();
+
         Exam exam = (id == 0) ? new Exam() : examService.find(id);
         examCommand.setExam(exam);
+        if (exam.isNew()) {
+            exam.setTopic(new Topic());
+        }
+
         List<Topic> topicList = topicService.findAll();
         examCommand.setTopicList(topicList);
+
         List<Question> questions = exam.getQuestions();
-        questions.addAll(questionService.findByTopicId(exam.getTopic().getId()));
+        List<Question> questionList = questionService.findByTopicId(exam.getTopic().getId());
+
+        for (Question question : questionList) {
+            question.setUsed(questions.contains(question));
+            if (!questions.contains(question)) {
+                questions.add(question);
+            }
+        }
         examCommand.setQuestionList(questions);
+
         model.addAttribute("examCommand", examCommand);
         return "exam/exam";
     }
@@ -94,7 +108,6 @@ public class ExamController {
     public String process(@Valid @ModelAttribute("examCommand") ExamCommand examCommand,
                           BindingResult result) {
         if (result.hasErrors()) {
-            System.out.println(result.getAllErrors());
             return "exam/exam";
         }
         if (examCommand.getQuestionList().size() == 0) { //new Exam create kortese eikhane.
@@ -103,6 +116,7 @@ public class ExamController {
                             getTopic().
                             getId()));
         }
+
         return "redirect:/examTopic";
     }
 
@@ -117,17 +131,16 @@ public class ExamController {
         if (examCommand.getQuestionList().size() == 0) {
             return "exam/chooseQuestions";
         }
-        for (Question question : examCommand.getQuestionList()) {
-            if ((!examCommand.getExam().
-                    getQuestions().
-                    contains(question))
-                    && question.isUsed()) {
-                question.setUsed(false);
-                questionService.saveOrUpdate(question);
-            }
-        }
         examService.saveOrUpdate(examCommand.getExam());
         status.setComplete();
+
         return "redirect:/examList";
+    }
+
+    @GetMapping(value = "/examRemove")
+    public String questionRemove(@RequestParam("id") int examId) {
+        examService.remove(examId);
+
+        return "redirect:/questionList";
     }
 }

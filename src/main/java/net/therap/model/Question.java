@@ -17,8 +17,7 @@ import java.util.Objects;
 @Table(name = "question")
 @NamedQuery(name = "findByTopicId",
         query = "SELECT q FROM Question q " +
-                "WHERE q.topic.id =:topicId " +
-                "and q.used = false")
+                "WHERE q.topic.id =:topicId")
 @NamedQuery(name = "findAllQuestions", query = "SELECT q FROM Question q")
 public class Question implements Serializable {
 
@@ -36,6 +35,9 @@ public class Question implements Serializable {
     @Size(min = 3, max = 300, message = "Content should be valid in Size")
     private String content;
 
+    @ManyToMany(mappedBy = "questions")
+    public List<Exam> exams = new ArrayList<>();
+
     @Valid
     @OneToMany(mappedBy = "question",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
@@ -49,6 +51,14 @@ public class Question implements Serializable {
     private int correctOption;
 
     private boolean used;
+
+    public List<Exam> getExams() {
+        return exams;
+    }
+
+    public void setExams(List<Exam> exams) {
+        this.exams = exams;
+    }
 
     public int getId() {
         return id;
@@ -79,7 +89,6 @@ public class Question implements Serializable {
     }
 
     public void setUsed(boolean used) {
-        System.out.println("USED: " + used);
         this.used = used;
     }
 

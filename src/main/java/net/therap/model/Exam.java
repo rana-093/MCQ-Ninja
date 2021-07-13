@@ -42,8 +42,10 @@ public class Exam implements Serializable {
     @JoinColumn(name = "topic_id")
     private Topic topic;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "exam_id")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "Exam_Questions",
+            joinColumns = {@JoinColumn(name = "exam_id")},
+            inverseJoinColumns = {@JoinColumn(name = "question_id")})
     private List<Question> questions;
 
     public List<Question> getQuestions() {
@@ -56,7 +58,6 @@ public class Exam implements Serializable {
 
     public Exam() {
         this.questions = new ArrayList<>();
-        this.topic = new Topic(); //Remove
         this.id = 0;
     }
 

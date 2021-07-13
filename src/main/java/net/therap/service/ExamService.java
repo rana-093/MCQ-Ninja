@@ -1,11 +1,16 @@
 package net.therap.service;
 
+import net.therap.dao.AnswerDao;
 import net.therap.dao.ExamDao;
 import net.therap.dao.QuestionDao;
+import net.therap.dao.ResultDao;
 import net.therap.model.Exam;
 import net.therap.model.Question;
+import net.therap.model.Result;
+import net.therap.util.AnswerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
 import java.util.List;
@@ -21,7 +26,10 @@ public class ExamService {
     private ExamDao examDao;
 
     @Autowired
-    private QuestionDao questionDao;
+    private AnswerService answerService;
+
+    @Autowired
+    private ResultService resultService;
 
     public Exam find(int id) {
         return examDao.find(id);
@@ -40,14 +48,20 @@ public class ExamService {
     }
 
     public void saveOrUpdate(Exam exam) {
-        for (Question question : exam.getQuestions()) {
-            question.setUsed(true);
-            questionDao.saveOrUpdate(question);
-        }
         examDao.saveOrUpdate(exam);
     }
 
+    @Transactional
+    public void saveExamDetails(List<AnswerUtil> answerUtilList, Result result) {
+        for (AnswerUtil answerUtil : answerUtilList) {
+            answerService.saveOrUpdate(answerUtil.getExamId(), answerUtil.getUserId(), answerUtil.getAnswer());
+        }
+        resultService.saveOrUpdate(result);
+    }
+
     public void remove(int id) {
+        Exam exam = examDao.find(id);
+        exam.getQuestions().clear();
         examDao.remove(id);
     }
 }

@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author masud.rana
  * @since 30/6/21
  */
-//@WebFilter("/*")
+@WebFilter("/*")
 public class SecurityFilter implements Filter {
 
     @Override

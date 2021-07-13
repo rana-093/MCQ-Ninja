@@ -1,6 +1,7 @@
 package net.therap.service;
 
 import net.therap.dao.QuestionDao;
+import net.therap.model.Exam;
 import net.therap.model.Option;
 import net.therap.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,6 @@ public class QuestionService {
     }
 
     public List<Question> findByTopicId(int id) {
-        System.out.println("In SERVICE " + id);
         return questionDao.findByTopicId(id);
     }
 
@@ -43,7 +43,11 @@ public class QuestionService {
         questionDao.saveOrUpdate(q);
     }
 
-    public void remove(int id) {
-        questionDao.remove(id);
+    public void remove(int questionId) {
+        Question question = questionDao.find(questionId);
+        for (Exam exam : question.getExams()) {
+            exam.getQuestions().remove(question);
+        }
+        questionDao.remove(questionId);
     }
 }

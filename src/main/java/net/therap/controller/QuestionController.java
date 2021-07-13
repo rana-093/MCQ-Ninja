@@ -76,14 +76,13 @@ public class QuestionController {
             model.addAttribute("topicList", topicList);
             return "question/question";
         }
-        System.out.println("IN POST METHOD...!");
         questionService.saveOrUpdate(question);
         status.setComplete();
         return "redirect:/questionList";
     }
 
     @GetMapping(value = "/questionRemove")
-    public String remove(@RequestParam("id") int questionId) {
+    public String questionRemove(@RequestParam("id") int questionId) {
         questionService.remove(questionId);
         return "redirect:/questionList";
     }
