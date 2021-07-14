@@ -29,7 +29,7 @@
     <div class="card" style="margin-top: 50px;">
         <div class="card-body">
             <form:form action="/mcq" method="post" modelAttribute="mcqCommand" id="mcqForm" name="mcqForm">
-
+                <h3>Exam Name: <c:out value="${mcqCommand.exam.name}"/></h3>
                 <c:forEach items="${mcqCommand.questionCommandList}" var="questionCommand" varStatus="status">
                     <form:hidden path="questionCommandList[${status.index}].question.id"/>
                     <form:input path="questionCommandList[${status.index}].question.content" readonly="true"
@@ -57,7 +57,6 @@
 <script>
     let day1 = new Date();
     let day2 = new Date(<c:out value="${date}"/>);
-    console.log("Okay: " + day2 + " ===> " + day1);
     let duration = Math.floor(Math.abs(day2 - day1) / 1000);
     const counter = document.getElementById('counter');
     let x = setInterval(updateCountDown, 1000);

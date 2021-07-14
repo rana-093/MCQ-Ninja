@@ -20,7 +20,6 @@ public class WebAppInitializer implements WebApplicationInitializer {
         AnnotationConfigWebApplicationContext root =
                 new AnnotationConfigWebApplicationContext();
         root.register(WebConfig.class);
-        root.setServletContext(sc);
 
         DispatcherServlet dispatcherServlet = new DispatcherServlet(root);
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);

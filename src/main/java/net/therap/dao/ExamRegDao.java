@@ -1,5 +1,6 @@
 package net.therap.dao;
 
+import net.therap.model.User;
 import net.therap.model.UserExamRegistration;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author masud.rana
@@ -22,7 +25,8 @@ public class ExamRegDao {
         TypedQuery<UserExamRegistration> userExamRegistrationTypedQuery = em.createNamedQuery("findByRegAndUserId", UserExamRegistration.class);
         userExamRegistrationTypedQuery.setParameter("examId", examId);
         userExamRegistrationTypedQuery.setParameter("studentId", studentId);
-        return userExamRegistrationTypedQuery.getSingleResult();
+        List<UserExamRegistration> userExamRegistrations = userExamRegistrationTypedQuery.getResultList();
+        return userExamRegistrations.size() == 0 ? null : userExamRegistrations.get(0);
     }
 
     @Transactional

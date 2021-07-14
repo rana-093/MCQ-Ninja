@@ -12,60 +12,60 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-warning">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="<c:url value="examList"/>"><spring:message code="header.home"/> <span
-                        class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<c:url value="userList"/>"><spring:message code="header.user"/> </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    <spring:message code="header.question"/>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                    <a class="dropdown-item" href="<c:url value="question"/>"><spring:message
-                            code="prompt.question"/> </a>
-                    <a class="dropdown-item" href="<c:url value="questionList"/>"><spring:message
-                            code="prompt.questiontList"/></a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    <spring:message code="header.subject"/>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                    <a class="dropdown-item" href="<c:url value="subject"/>"><spring:message code="prompt.subject"/></a>
-                    <a class="dropdown-item" href="<c:url value="subjectList"/>"><spring:message
-                            code="prompt.subjectList"/></a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    <spring:message code="header.topic"/>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-                    <a class="dropdown-item" href="<c:url value="topic"/>"><spring:message code="prompt.topic"/></a>
-                    <a class="dropdown-item" href="<c:url value="topicList"/>"><spring:message
-                            code="prompt.topicList"/></a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/logOut"><spring:message code="header.logout"/></a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<%--<nav class="navbar navbar-expand-lg navbar-light bg-warning">--%>
+<%--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"--%>
+<%--            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">--%>
+<%--        <span class="navbar-toggler-icon"></span>--%>
+<%--    </button>--%>
+<%--    <div class="collapse navbar-collapse" id="navbarNav">--%>
+<%--        <ul class="navbar-nav">--%>
+<%--            <li class="nav-item">--%>
+<%--                <a class="nav-link" href="<c:url value="examList"/>"><spring:message code="header.home"/> <span--%>
+<%--                        class="sr-only">(current)</span></a>--%>
+<%--            </li>--%>
+<%--            <li class="nav-item">--%>
+<%--                <a class="nav-link" href="<c:url value="userList"/>"><spring:message code="header.user"/> </a>--%>
+<%--            </li>--%>
+<%--            <li class="nav-item dropdown">--%>
+<%--                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown"--%>
+<%--                   aria-haspopup="true" aria-expanded="false">--%>
+<%--                    <spring:message code="header.question"/>--%>
+<%--                </a>--%>
+<%--                <div class="dropdown-menu" aria-labelledby="navbarDropdown1">--%>
+<%--                    <a class="dropdown-item" href="<c:url value="question"/>"><spring:message--%>
+<%--                            code="prompt.question"/> </a>--%>
+<%--                    <a class="dropdown-item" href="<c:url value="questionList"/>"><spring:message--%>
+<%--                            code="prompt.questiontList"/></a>--%>
+<%--                </div>--%>
+<%--            </li>--%>
+<%--            <li class="nav-item dropdown">--%>
+<%--                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"--%>
+<%--                   aria-haspopup="true" aria-expanded="false">--%>
+<%--                    <spring:message code="header.subject"/>--%>
+<%--                </a>--%>
+<%--                <div class="dropdown-menu" aria-labelledby="navbarDropdown2">--%>
+<%--                    <a class="dropdown-item" href="<c:url value="subject"/>"><spring:message code="prompt.subject"/></a>--%>
+<%--                    <a class="dropdown-item" href="<c:url value="subjectList"/>"><spring:message--%>
+<%--                            code="prompt.subjectList"/></a>--%>
+<%--                </div>--%>
+<%--            </li>--%>
+<%--            <li class="nav-item dropdown">--%>
+<%--                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown"--%>
+<%--                   aria-haspopup="true" aria-expanded="false">--%>
+<%--                    <spring:message code="header.topic"/>--%>
+<%--                </a>--%>
+<%--                <div class="dropdown-menu" aria-labelledby="navbarDropdown3">--%>
+<%--                    <a class="dropdown-item" href="<c:url value="topic"/>"><spring:message code="prompt.topic"/></a>--%>
+<%--                    <a class="dropdown-item" href="<c:url value="topicList"/>"><spring:message--%>
+<%--                            code="prompt.topicList"/></a>--%>
+<%--                </div>--%>
+<%--            </li>--%>
+<%--            <li class="nav-item">--%>
+<%--                <a class="nav-link" href="/logOut"><spring:message code="header.logout"/></a>--%>
+<%--            </li>--%>
+<%--        </ul>--%>
+<%--    </div>--%>
+<%--</nav>--%>
 <c:choose>
     <c:when test='<%=session.getAttribute("role") == Helper.Role.ADMIN%>'>
         <nav class="navbar navbar-expand-lg navbar-light bg-warning">
@@ -79,17 +79,73 @@
                         <a class="nav-link" href="#"><spring:message code="header.home"/> <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<c:url value="registerAdmin"/>">Add a new Admin</a>
+                        <a class="nav-link" href="<c:url value="userList"/>"><spring:message code="header.user"/></a>
                     </li>
-                    <li class="nav-item" style="margin-left: auto">
-                        <a class="nav-link" href="<c:url value="logOut"/>">LogOut</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <spring:message code="header.question"/>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                            <a class="dropdown-item" href="<c:url value="question"/>"><spring:message
+                                    code="prompt.question"/> </a>
+                            <a class="dropdown-item" href="<c:url value="questionList"/>"><spring:message
+                                    code="prompt.questiontList"/></a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <spring:message code="header.subject"/>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                            <a class="dropdown-item" href="<c:url value="subject"/>"><spring:message
+                                    code="prompt.subject"/></a>
+                            <a class="dropdown-item" href="<c:url value="subjectList"/>"><spring:message
+                                    code="prompt.subjectList"/></a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <spring:message code="header.topic"/>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
+                            <a class="dropdown-item" href="<c:url value="topic"/>"><spring:message
+                                    code="prompt.topic"/></a>
+                            <a class="dropdown-item" href="<c:url value="topicList"/>"><spring:message
+                                    code="prompt.topicList"/></a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout"><spring:message code="header.logout"/></a>
                     </li>
                 </ul>
             </div>
         </nav>
     </c:when>
     <c:otherwise>
-        Welcome to the dashBoard!!!
+        <nav class="navbar navbar-expand-lg navbar-light bg-warning">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav2">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="<c:url value="examList"/>"><spring:message code="header.home"/> <span
+                                class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/userExamList"><spring:message code="header.pastExam"/></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout"><spring:message code="header.logout"/></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     </c:otherwise>
 </c:choose>
 

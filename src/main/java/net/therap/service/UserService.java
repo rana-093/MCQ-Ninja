@@ -25,13 +25,13 @@ public class UserService {
         return userDao.findStudent(studentId);
     }
 
-    public boolean doesExist(int id) {
-        return Objects.nonNull(userDao.findAdmin(id)) ||
-                Objects.nonNull(userDao.findStudent(id));
-    }
+//    public boolean doesExist(int id) {
+//        return Objects.nonNull(userDao.findAdmin(id)) ||
+//                Objects.nonNull(userDao.findStudent(id));
+//    }
 
-    public boolean isAdmin(int id) {
-        return Objects.nonNull(userDao.findAdmin(id));
+    public boolean isAdmin(String email) {
+        return Objects.nonNull(userDao.findAdmin(email));
     }
 
     public User findByEmail(String email) {

@@ -105,40 +105,31 @@
 
 <div class="Wrapper">
     <div class="container">
-        <c:choose>
-            <c:when test='<%=session.getAttribute("role") == Helper.Role.ADMIN%>'>
-                <a href="/exam">
-                    <button type="button" class="btn btn-primary">
-                        <spring:message code="exam.setExam"/>
-                    </button>
-                </a>
-            </c:when>
-        </c:choose>
 
-        <p style="color: darkblue; font-size: larger"><spring:message code="exam.runningExam"/></p>
+        <p style="color: darkblue; font-size: larger">User Exam History</p>
         <table class="table">
             <thead>
             <tr>
-                <th scope="col"><spring:message code="exam.header.startTime"/></th>
-                <th scope="col"><spring:message code="exam.header.endTime"/></th>
-                <th scope="col"><spring:message code="header.topic"/></th>
+                <th scope="col">Exam Name</th>
+                <th scope="col">Exam Topic</th>
+                <th scope="col">Score</th>
                 <th scope="col"><spring:message code="button.action"/></th>
             </tr>
             </thead>
-            <c:forEach var="exam" items="${runningExamList}">
+            <c:forEach var="result" items="${resultList}">
                 <tbody>
                 <tr>
-                    <td><c:out value="${exam.startTime}"/></td>
-                    <td><c:out value="${exam.endTime}"/></td>
-                    <td><c:out value="${exam.topic.name}"/></td>
+                    <td><c:out value="${result.exam.name}"/></td>
+                    <td><c:out value="${result.exam.topic.name}"/></td>
+                    <td><c:out value="${result.score}"/></td>
                     <td>
-                        <c:url value="/mcq" var="examUrl">
-                            <c:param name="id" value="${exam.id}"/>
+                        <c:url value="/showDetails" var="examUrl">
+                            <c:param name="id" value="${result.exam.id}"/>
                         </c:url>
                         <c:if test='<%=session.getAttribute("role") == Helper.Role.STUDENT%>'>
                             <a href="${examUrl}">
                                 <button type="button" class="btn btn-success">
-                                    <spring:message code="exam.enterExam"/>
+                                    Show Details
                                 </button>
                             </a>
                         </c:if>
@@ -148,80 +139,6 @@
             </c:forEach>
         </table>
 
-
-        <p style="color: blue; font-size: larger"><spring:message code="exam.upcomingExam"/></p>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col"><spring:message code="exam.header.startTime"/></th>
-                <th scope="col"><spring:message code="exam.header.endTime"/></th>
-                <th scope="col"><spring:message code="header.topic"/></th>
-                <th scope="col"><spring:message code="button.action"/></th>
-            </tr>
-            </thead>
-            <c:forEach var="exam" items="${upcomingExamList}">
-                <tbody>
-                <tr>
-                    <td><c:out value="${exam.startTime}"/></td>
-                    <td><c:out value="${exam.endTime}"/></td>
-                    <td><c:out value="${exam.topic.name}"/></td>
-                    <td>
-                        <c:url value="/deleteExam" var="deleteExamUrl">
-                            <c:param name="id" value="${exam.id}"/>
-                        </c:url>
-                        <c:url value="/regExam" var="examUrl">
-                            <c:param name="id" value="${exam.id}"/>
-                        </c:url>
-
-                        <c:choose>
-                            <c:when test='<%=session.getAttribute("role") == Helper.Role.ADMIN%>'>
-                                <a href="${deleteExamUrl}">
-                                    <button type="button" class="btn btn-danger">
-                                        <spring:message code="exam.delete"/>
-                                    </button>
-                                </a>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="${examUrl}">
-                                    <button type="button" class="btn btn-success">
-                                        Register
-                                    </button>
-                                </a>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                </tr>
-                </tbody>
-            </c:forEach>
-        </table>
-
-        <%--        <c:choose>--%>
-        <%--            <c:when test='<%=session.getAttribute("role") == Helper.Role.ADMIN%>'>--%>
-        <p style="color: red; font-size: larger"><spring:message code="exam.pastExam"/></p>
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col"><spring:message code="exam.header.id"/></th>
-                <th scope="col"><spring:message code="exam.header.startTime"/></th>
-                <th scope="col"><spring:message code="exam.header.endTime"/></th>
-                <th scope="col"><spring:message code="header.topic"/></th>
-                <th scope="col">Exam Name</th>
-            </tr>
-            </thead>
-            <c:forEach var="exam" items="${pastExamList}">
-                <tbody>
-                <tr>
-                    <th scope="row"><c:out value="${exam.id}"/></th>
-                    <td><c:out value="${exam.startTime}"/></td>
-                    <td><c:out value="${exam.endTime}"/></td>
-                    <td><c:out value="${exam.topic.name}"/></td>
-                    <td><c:out value="${exam.name}"/></td>
-                </tr>
-                </tbody>
-            </c:forEach>
-        </table>
-        <%--            </c:when>--%>
-        <%--        </c:choose>--%>
     </div>
 
     <script>

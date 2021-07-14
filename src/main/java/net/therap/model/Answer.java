@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "answer")
+@NamedQuery(name = "findByQuestionId", query = "SELECT a FROM Answer a WHERE a.question.id =:questionId AND a.userExamRegistration.id =:examRegId")
 public class Answer implements Serializable {
 
     private static final long serialVersionUID = 1L;

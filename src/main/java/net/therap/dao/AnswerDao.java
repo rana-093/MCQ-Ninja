@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  * @author masud.rana
@@ -16,6 +17,13 @@ public class AnswerDao {
 
     @PersistenceContext
     private EntityManager em;
+
+    public Answer find(int examRegId, int questionId) {
+        TypedQuery<Answer> answerTypedQuery = em.createNamedQuery("findByQuestionId", Answer.class);
+        answerTypedQuery.setParameter("examRegId", examRegId);
+        answerTypedQuery.setParameter("questionId", questionId);
+        return answerTypedQuery.getSingleResult();
+    }
 
     @Transactional
     public void saveOrUpdate(Answer answer) {

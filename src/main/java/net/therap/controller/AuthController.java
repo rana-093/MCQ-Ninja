@@ -47,14 +47,13 @@ public class AuthController {
     public String process(@Valid @ModelAttribute("user") User user,
                           BindingResult result, HttpServletRequest request) {
         if (result.hasErrors()) {
-            System.out.println(result.getAllErrors());
             return "auth/logIn";
         }
         User currentUser = userService.findByEmail(user.getEmail());
-        boolean isAdmin = userService.isAdmin(currentUser.getId());
+        boolean isAdmin = userService.isAdmin(currentUser.getEmail());
         HttpSession session = request.getSession();
+        System.out.println("isAdmin: " + isAdmin + " Email: " + currentUser.getEmail());
         session.setAttribute("role", (isAdmin) ? Helper.Role.ADMIN : Helper.Role.STUDENT);
-        System.out.println("-----------> " + currentUser.getId());
         session.setAttribute("userId", currentUser.getId());
         return "redirect:/home";
     }

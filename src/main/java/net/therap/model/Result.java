@@ -10,6 +10,8 @@ import java.util.List;
  */
 @Entity
 @Table(name = "result")
+@NamedQuery(name = "findByUserExamId", query = "SELECT r FROM Result r WHERE r.exam.id =:examId AND r.student.id =:studentId")
+@NamedQuery(name = "findByUserId", query = "SELECT r FROM Result r WHERE r.student.id =:studentId")
 public class Result implements Serializable {
 
     private static final long serialVersionUID = 1L;

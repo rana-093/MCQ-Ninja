@@ -40,8 +40,12 @@ public class UserDao {
         return allStudents.getResultList();
     }
 
-    public User findAdmin(int id) {
-        return em.find(Admin.class, id);
+    public User findAdmin(String email) {
+        String queryString = "FROM Admin a WHERE a.email =:email";
+        Query query = em.createQuery(queryString);
+        query.setParameter("email", email);
+        List<User> users = query.getResultList();
+        return users.size() == 0 ? null : users.get(0);
     }
 
     public User findByEmail(String email, boolean isAdmin) {

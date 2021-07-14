@@ -4,10 +4,7 @@ import net.therap.command.MCQCommand;
 import net.therap.command.QuestionCommand;
 import net.therap.dao.OptionDao;
 import net.therap.model.*;
-import net.therap.service.AnswerService;
-import net.therap.service.ExamService;
-import net.therap.service.ResultService;
-import net.therap.service.UserService;
+import net.therap.service.*;
 import net.therap.util.AnswerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,9 +37,28 @@ public class MCQController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ExamRegService examRegService;
+
+    @Autowired
+    private ResultService resultService;
+
     @GetMapping(value = "/mcq")
-    public String showMcq(@RequestParam(value = "id", required = false, defaultValue = "0") int id, Model model) {
-        Exam exam = (id == 0) ? new Exam() : examService.find(id);
+    public String showMcq(@RequestParam(value = "id", required = false, defaultValue = "0") int examId,
+                          Model model,
+                          HttpServletRequest request) {
+        Exam exam = (examId == 0) ? new Exam() : examService.find(examId);
+
+        HttpSession session = request.getSession(false);
+        int userId = Integer.parseInt(session.getAttribute("userId").toString());
+
+        if (Objects.isNull(examRegService.findById(examId, userId))) {
+            return "warnings/notRegistered";
+        }
+
+        if (Objects.nonNull(resultService.findByUserExamId(examId, userId))) {
+            return "warnings/alreadyAppeared";
+        }
 
         MCQCommand mcqCommand = new MCQCommand();
         mcqCommand.setExam(exam);

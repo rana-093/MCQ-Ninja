@@ -137,7 +137,7 @@ public class ExamController {
         return "redirect:/examList";
     }
 
-    @GetMapping(value = "/examRemove")
+    @GetMapping(value = "/deleteExam")
     public String questionRemove(@RequestParam("id") int examId) {
         examService.remove(examId);
 
