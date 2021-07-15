@@ -64,4 +64,14 @@ public class AuthController {
         session.invalidate();
         return "redirect:/login";
     }
+
+    @GetMapping(value = "/restricted")
+    public String restricted() {
+        return "warnings/restricted";
+    }
+
+    @GetMapping(value = "/fourOfour")
+    public String fourOfour() {
+        return "warnings/404";
+    }
 }

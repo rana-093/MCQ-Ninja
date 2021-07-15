@@ -72,8 +72,8 @@ public class MCQController {
     }
 
     @PostMapping(value = "/mcq")
-    public void processMcq(@ModelAttribute("mcqCommand") MCQCommand mcqCommand,
-                           HttpServletRequest request, SessionStatus status) {
+    public String processMcq(@ModelAttribute("mcqCommand") MCQCommand mcqCommand,
+                             HttpServletRequest request, SessionStatus status) {
         int score = 0;
 
         HttpSession session = request.getSession(false);
@@ -107,6 +107,8 @@ public class MCQController {
 
         examService.saveExamDetails(answerUtilList, result);
         status.setComplete();
+
+        return "redirect:/userExamList";
     }
 
     private String formateDate(Date date) { //Needed to convert Java Date to JavaScript Date format!!!

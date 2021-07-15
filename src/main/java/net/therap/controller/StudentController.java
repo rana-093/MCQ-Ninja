@@ -1,5 +1,6 @@
 package net.therap.controller;
 
+import net.therap.exception.WebSecurityException;
 import net.therap.model.Student;
 import net.therap.service.UserService;
 import net.therap.util.Access;
@@ -35,9 +36,9 @@ public class StudentController {
 
     @GetMapping(value = "/showProfile")
     public String showProfile(@RequestParam(defaultValue = "0") int id,
-                              Model model, HttpServletRequest request) {
+                              Model model, HttpServletRequest request) throws Exception {
         if (!Access.checkAccessWithId(id, request)) {
-            return "warnings/restricted";
+            throw new WebSecurityException("Vilotaion of Web Security..!");
         }
         Student student = userService.findStudent(id);
         model.addAttribute("student", student);

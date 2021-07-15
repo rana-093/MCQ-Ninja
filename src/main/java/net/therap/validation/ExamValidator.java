@@ -32,9 +32,9 @@ public class ExamValidator implements Validator {
         if (Objects.isNull(examCommand.getExam().getEndTime())) {
             errors.rejectValue("endTime", "NOT NULL", "Date should not be null");
         } else {
-            if (examCommand.getExam().getEndTime().before(examCommand.getExam().getStartTime())) {
-                errors.rejectValue("endTime", "DOES NOT EXIST", "End date should be greater than Start Date");
-            }
+         //   if (examCommand.getExam().getEndTime().before(examCommand.getExam().getStartTime())) {
+          //      errors.rejectValue("endTime", "DOES NOT EXIST", "End date should be greater than Start Date");
+         //   }
 //            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 //            simpleDateFormat.setLenient(false);
 //            try {

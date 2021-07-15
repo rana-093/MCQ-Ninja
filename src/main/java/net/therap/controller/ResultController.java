@@ -54,8 +54,6 @@ public class ResultController {
         HttpSession session = request.getSession(false);
         int userId = Integer.parseInt(session.getAttribute("userId").toString());
 
-        System.out.println("Exam Id: " + examId + " , userId: " + userId);
-
         UserExamRegistration userExamRegistration = examRegService.findById(examId, userId);
         if (Objects.isNull(userExamRegistration)) {
             return "warnings/notRegistered";

@@ -1,5 +1,6 @@
 package net.therap.controller;
 
+import net.therap.exception.NotFoundException;
 import net.therap.model.Exam;
 import net.therap.model.Option;
 import net.therap.model.Question;
@@ -11,14 +12,12 @@ import net.therap.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -57,8 +56,11 @@ public class QuestionController {
 
     @GetMapping(value = "/question")
     public String show(@RequestParam(value = "id", required = false, defaultValue = "0")
-                               int id, Model model) {
+                               int id, Model model) throws Exception {
         Question question = (id == 0) ? new Question() : questionService.find(id);
+        if (Objects.isNull(question)) {
+            throw new NotFoundException(id);
+        }
         setUpReferenceData(question, model);
         model.addAttribute("question", question);
         return "question/question";
