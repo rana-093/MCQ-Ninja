@@ -33,8 +33,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static net.therap.util.Helper.MCQ;
-import static net.therap.util.Helper.fileURL;
+import static net.therap.util.Helper.*;
 
 /**
  * @author masud.rana
@@ -146,7 +145,7 @@ public class MCQController {
         examService.saveExamDetails(answerUtilList, result);
         status.setComplete();
 
-        return "redirect:/userExamList";
+        return REDIRECT_USER_EXAM_LIST;
     }
 
     private String formateDate(Date date) { //Needed to convert Java Date to JavaScript Date format!!!

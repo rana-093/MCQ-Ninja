@@ -24,8 +24,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-import static net.therap.util.Helper.QUESTION;
-import static net.therap.util.Helper.QUESTIONLIST;
+import static net.therap.util.Helper.*;
 
 /**
  * @author masud.rana
@@ -83,20 +82,20 @@ public class QuestionController {
                           SessionStatus status) {
 
         if (result.hasErrors()) {
-            return "question/question";
+            return QUESTION;
         }
 
         questionService.saveOrUpdate(question);
         status.setComplete();
 
-        return "redirect:/questionList";
+        return REDIRECT_QUESTIONLIST;
     }
 
     @GetMapping(value = "/questionRemove")
     public String questionRemove(@RequestParam("id") int questionId) {
         questionService.remove(questionId);
 
-        return "redirect:/questionList";
+        return REDIRECT_QUESTIONLIST;
     }
 
     @PostMapping(value = "/uploadCSV")

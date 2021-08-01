@@ -53,10 +53,11 @@ public class SubjectController {
             model.addAttribute("subject", subject);
             return SUBJECT;
         }
+
         subjectService.saveOrUpdate(subject);
         rttr.addFlashAttribute("alert", 1);
 
-        return "redirect:/subjectList";
+        return REDIRECT_SUBJECT_LIST;
     }
 
     @GetMapping(value = "/subjectList")

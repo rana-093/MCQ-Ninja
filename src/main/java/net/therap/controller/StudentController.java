@@ -24,8 +24,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
 
-import static net.therap.util.Helper.EDIT_PROFILE;
-import static net.therap.util.Helper.SHOW_PROFILE;
+import static net.therap.util.Helper.*;
 
 /**
  * @author masud.rana
@@ -96,6 +95,6 @@ public class StudentController {
         userService.saveOrUpdate(student);
         status.setComplete();
 
-        return "redirect:/home";
+        return REDIRECT_HOME;
     }
 }

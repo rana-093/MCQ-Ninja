@@ -59,14 +59,14 @@ public class AuthController {
 
         session.setAttribute("role", (isAdmin) ? Helper.Role.ADMIN : Helper.Role.STUDENT);
         session.setAttribute("userId", currentUser.getId());
-        return "redirect:/home";
+        return REDIRECT_HOME;
     }
 
     @GetMapping(value = "/logout")
     public String logOut(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.invalidate();
-        return "redirect:/login";
+        return REDIRECT_LOG_IN;
     }
 
     @GetMapping(value = "/restricted")

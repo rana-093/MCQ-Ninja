@@ -125,12 +125,12 @@ public class ExamController {
                             getId()));
         }
 
-        return "redirect:/examTopic";
+        return REDIRECT_EXAM_TOPIC;
     }
 
     @GetMapping(value = "/examTopic")
     public String setExam(@ModelAttribute("examCommand") ExamCommand examCommand) {
-        return "exam/chooseQuestions";
+        return CHOOSE_QUESTIONS;
     }
 
     @PostMapping(value = "/examTopic")
@@ -153,13 +153,13 @@ public class ExamController {
 
         status.setComplete();
 
-        return "redirect:/examList";
+        return REDIRECT_EXAM_LIST;
     }
 
     @GetMapping(value = "/deleteExam")
     public String questionRemove(@RequestParam("id") int examId) {
         examService.remove(examId);
 
-        return "redirect:/questionList";
+        return REDIRECT_QUESTIONLIST;
     }
 }

@@ -50,6 +50,7 @@ public class RegController implements Serializable {
     @GetMapping(value = "/registerStudent")
     public String showStudentRegister(Model model) {
         model.addAttribute("student", new Student());
+
         return STUDENT_REGISTER;
     }
 
@@ -64,7 +65,7 @@ public class RegController implements Serializable {
         student.setData(student.getImageFile());
         userService.saveOrUpdate(student);
 
-        return "redirect:/home";
+        return REDIRECT_HOME;
     }
 
     @GetMapping(value = "/registerAdmin")
@@ -84,6 +85,6 @@ public class RegController implements Serializable {
         admin.setActive(true);
         userService.saveOrUpdate(admin);
 
-        return "redirect:/home";
+        return REDIRECT_HOME;
     }
 }

@@ -82,6 +82,7 @@ public interface Helper {
     );
 
     String LOG_IN = "auth/login";
+    String REDIRECT_LOG_IN = "redirect:/login";
     String RESTRICTED = "warnings/restricted";
     String FOUR_O_FOUR = "warnings/404";
     String REGISTERED = "warnings/registered";
@@ -89,6 +90,7 @@ public interface Helper {
 
     String EXAM_LIST = "exam/examList";
     String EXAM = "exam/exam";
+    String REDIRECT_EXAM_LIST = "redirect:/examList";
 
     String CHOOSE_QUESTIONS = "exam/chooseQuestions";
 
@@ -96,23 +98,29 @@ public interface Helper {
 
     String QUESTIONLIST = "question/questionList";
     String QUESTION = "question/question";
+    String REDIRECT_QUESTIONLIST = "redirect:/questionList";
 
     String HOME = "home";
+    String REDIRECT_HOME = "redirect:/home";
 
     String STUDENT_REGISTER = "auth/studentRegister";
     String ADMIN_REGISTER = "auth/adminRegister";
 
     String USER_EXAM_LIST = "result/userExamList";
     String RESULT_DETAILS = "result/showDetails";
+    String REDIRECT_USER_EXAM_LIST = "redirect:/userExamList";
 
     String SHOW_PROFILE = "profile/show";
     String EDIT_PROFILE = "profile/edit";
 
     String SUBJECT_LIST = "subject/subjectList";
     String SUBJECT = "subject/subject";
+    String REDIRECT_SUBJECT_LIST = "redirect:/subjectList";
 
     String TOPIC_LIST = "topic/topicList";
     String TOPIC = "topic/topic";
+    String REDIRECT_TOPIC_LIST = "redirect:/topicList";
+    String REDIRECT_EXAM_TOPIC = "redirect:/examTopic";
 
     String USER_STUDENT = "user/student";
     String STUDENT_LIST = "user/studentList";

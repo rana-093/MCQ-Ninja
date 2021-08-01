@@ -68,7 +68,7 @@ public class TopicController {
         topicService.saveOrUpdate(topic);
         rttr.addFlashAttribute("alert", 1);
 
-        return "redirect:/topicList";
+        return REDIRECT_TOPIC_LIST;
     }
 
     @GetMapping(value = "/topicList")
