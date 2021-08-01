@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import static net.therap.util.Helper.*;
+
 /**
  * @author masud.rana
  * @since 29/6/21
@@ -40,19 +42,21 @@ public class AuthController {
     @GetMapping(value = "/login")
     public String show(Model model) {
         model.addAttribute("user", new User());
-        return "auth/logIn";
+        return LOG_IN;
     }
 
     @PostMapping(value = "/login")
-    public String process(@Valid @ModelAttribute("user") User user,
+    public String process(@Valid @ModelAttribute User user,
                           BindingResult result, HttpServletRequest request) {
         if (result.hasErrors()) {
-            return "auth/logIn";
+            return LOG_IN;
         }
+
         User currentUser = userService.findByEmail(user.getEmail());
         boolean isAdmin = userService.isAdmin(currentUser.getEmail());
+
         HttpSession session = request.getSession();
-        System.out.println("isAdmin: " + isAdmin + " Email: " + currentUser.getEmail());
+
         session.setAttribute("role", (isAdmin) ? Helper.Role.ADMIN : Helper.Role.STUDENT);
         session.setAttribute("userId", currentUser.getId());
         return "redirect:/home";
@@ -67,11 +71,11 @@ public class AuthController {
 
     @GetMapping(value = "/restricted")
     public String restricted() {
-        return "warnings/restricted";
+        return RESTRICTED;
     }
 
     @GetMapping(value = "/fourOfour")
     public String fourOfour() {
-        return "warnings/404";
+        return FOUR_O_FOUR;
     }
 }

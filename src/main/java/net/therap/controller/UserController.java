@@ -18,6 +18,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
+import static net.therap.util.Helper.*;
+
 /**
  * @author masud.rana
  * @since 29/6/21
@@ -33,20 +35,22 @@ public class UserController {
     @GetMapping(value = "/userList")
     public String showAll(Model model) {
         List studentList = userService.findAllStudents();
-        System.out.println(studentList + " , , , , , ");
         model.addAttribute("studentList", studentList);
-        return "user/studentList";
+
+        return STUDENT_LIST;
     }
 
     @GetMapping(value = "/user")
     public String show(@RequestParam(defaultValue = "0") int id, Model model) {
         Student student = (id == 0) ? new Student() : userService.findStudent(id);
+
         if (Objects.isNull(student)) {
-            return "warnings/404";
+            return FOUR_O_FOUR;
         }
-        System.out.println("student: " + student.getEmail() + " , id: " + id);
+
         model.addAttribute("student", student);
-        return "user/student";
+
+        return USER_STUDENT;
     }
 
     @PostMapping(value = "/user")
@@ -54,10 +58,11 @@ public class UserController {
                           BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("student", student);
-            return "user/student";
+            return USER_STUDENT;
         }
         logger.info("IN PROFILE EDIT: " + student.getImage().toString());
         userService.saveOrUpdate(student);
+
         return "redirect:/userList";
     }
 }

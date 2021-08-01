@@ -80,5 +80,42 @@ public interface Helper {
             "http://localhost:8080/showProfile",
             "http://localhost:8080/editProfile"
     );
+
+    String LOG_IN = "auth/login";
+    String RESTRICTED = "warnings/restricted";
+    String FOUR_O_FOUR = "warnings/404";
+    String REGISTERED = "warnings/registered";
+    String NOT_REGISTERED = "warnings/notRegistered";
+
+    String EXAM_LIST = "exam/examList";
+    String EXAM = "exam/exam";
+
+    String CHOOSE_QUESTIONS = "exam/chooseQuestions";
+
+    String MCQ = "mcq/mcq";
+
+    String QUESTIONLIST = "question/questionList";
+    String QUESTION = "question/question";
+
+    String HOME = "home";
+
+    String STUDENT_REGISTER = "auth/studentRegister";
+    String ADMIN_REGISTER = "auth/adminRegister";
+
+    String USER_EXAM_LIST = "result/userExamList";
+    String RESULT_DETAILS = "result/showDetails";
+
+    String SHOW_PROFILE = "profile/show";
+    String EDIT_PROFILE = "profile/edit";
+
+    String SUBJECT_LIST = "subject/subjectList";
+    String SUBJECT = "subject/subject";
+
+    String TOPIC_LIST = "topic/topicList";
+    String TOPIC = "topic/topic";
+
+    String USER_STUDENT = "user/student";
+    String STUDENT_LIST = "user/studentList";
+
 }
 

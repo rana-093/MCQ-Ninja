@@ -18,6 +18,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
+import static net.therap.util.Helper.*;
+
 /**
  * @author masud.rana
  * @since 1/7/21
@@ -43,12 +45,15 @@ public class TopicController {
     public String show(@RequestParam(value = "id", required = false, defaultValue = "0") int id,
                        ModelMap model) {
         Topic topic = (id == 0) ? new Topic() : topicService.find(id);
+
         if (Objects.isNull(topic)) {
-            return "warnings/404";
+            return FOUR_O_FOUR;
         }
+
         setupReferenceData(model);
         model.addAttribute("topic", topic);
-        return "topic/topic";
+
+        return TOPIC;
     }
 
     @PostMapping("/topic")
@@ -57,10 +62,12 @@ public class TopicController {
         if (result.hasErrors()) {
             setupReferenceData(model);
             model.addAttribute("topic", topic);
-            return "topic/topic";
+            return TOPIC;
         }
+
         topicService.saveOrUpdate(topic);
         rttr.addFlashAttribute("alert", 1);
+
         return "redirect:/topicList";
     }
 
@@ -68,7 +75,8 @@ public class TopicController {
     public String showAll(Model model) {
         List topicList = topicService.findAll();
         model.addAttribute("topicList", topicList);
-        return "topic/topicList";
+
+        return TOPIC_LIST;
     }
 
     private void setupReferenceData(ModelMap model) {

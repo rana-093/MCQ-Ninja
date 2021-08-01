@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static net.therap.util.Helper.fileURL;
+import static net.therap.util.Helper.*;
 
 /**
  * @author masud.rana
@@ -76,10 +76,12 @@ public class ExamController {
         List<Exam> runningExams = examService.findAllRunningExams();
         List<Exam> upcomingExams = examService.findAllUpcomingExams();
         List<Exam> pastExams = examService.findAllPastExams();
+
         model.addAttribute("runningExamList", runningExams);
         model.addAttribute("upcomingExamList", upcomingExams);
         model.addAttribute("pastExamList", pastExams);
-        return "exam/examList";
+
+        return EXAM_LIST;
     }
 
     @GetMapping(value = "/exam")
@@ -107,14 +109,14 @@ public class ExamController {
         examCommand.setQuestionList(questions);
 
         model.addAttribute("examCommand", examCommand);
-        return "exam/exam";
+        return EXAM;
     }
 
     @PostMapping(value = "/exam")
     public String process(@Valid @ModelAttribute("examCommand") ExamCommand examCommand,
                           BindingResult result) throws IOException {
         if (result.hasErrors()) {
-            return "exam/exam";
+            return EXAM;
         }
         if (examCommand.getQuestionList().size() == 0) { //new Exam create kortese eikhane.
             examCommand.setQuestionList(questionService.findByTopicId(
@@ -135,7 +137,7 @@ public class ExamController {
     public String setQuestions(@Valid @ModelAttribute("examCommand") ExamCommand examCommand,
                                SessionStatus status) throws IOException {
         if (examCommand.getQuestionList().size() == 0) {
-            return "exam/chooseQuestions";
+            return CHOOSE_QUESTIONS;
         }
 
         String fileName = examCommand.getExam().getInstructionsFile().getOriginalFilename();

@@ -16,6 +16,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
+import static net.therap.util.Helper.*;
+
 /**
  * @author masud.rana
  * @since 1/7/21
@@ -34,11 +36,14 @@ public class SubjectController {
     @GetMapping("/subject")
     public String show(@RequestParam(value = "id", required = false, defaultValue = "0") int id, ModelMap model) {
         Subject subject = (id == 0) ? new Subject() : subjectService.find(id);
+
         if (Objects.isNull(subject)) {
-            return "warnings/404";
+            return FOUR_O_FOUR;
         }
+
         model.addAttribute("subject", subject);
-        return "subject/subject";
+
+        return SUBJECT;
     }
 
     @PostMapping("/subject")
@@ -46,10 +51,11 @@ public class SubjectController {
                           BindingResult result, ModelMap model, RedirectAttributes rttr) {
         if (result.hasErrors()) {
             model.addAttribute("subject", subject);
-            return "subject/subject";
+            return SUBJECT;
         }
         subjectService.saveOrUpdate(subject);
-        rttr.addFlashAttribute("alert",1);
+        rttr.addFlashAttribute("alert", 1);
+
         return "redirect:/subjectList";
     }
 
@@ -57,6 +63,7 @@ public class SubjectController {
     public String showAll(Model model) {
         List<Subject> subjectList = subjectService.findAll();
         model.addAttribute("subjectList", subjectList);
-        return "subject/subjectList";
+
+        return SUBJECT_LIST;
     }
 }

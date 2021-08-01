@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static net.therap.util.Helper.*;
+
 /**
  * @author masud.rana
  * @since 14/7/21
@@ -46,7 +48,7 @@ public class ResultController {
         List<Result> resultList = resultService.findByUserId(userId);
 
         model.addAttribute("resultList", resultList);
-        return "result/userExamList";
+        return USER_EXAM_LIST;
     }
 
     @GetMapping(value = "/showDetails")
@@ -57,7 +59,7 @@ public class ResultController {
         UserExamRegistration userExamRegistration = examRegService.findById(examId, userId);
 
         if (Objects.isNull(userExamRegistration)) {
-            return "warnings/notRegistered";
+            return NOT_REGISTERED;
         }
 
         Exam exam = examService.find(examId);
@@ -71,6 +73,6 @@ public class ResultController {
 
         model.addAttribute("resultCommandList", resultCommandList);
 
-        return "result/showDetails";
+        return RESULT_DETAILS;
     }
 }

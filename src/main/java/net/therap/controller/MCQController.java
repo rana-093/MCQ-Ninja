@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import static net.therap.util.Helper.MCQ;
 import static net.therap.util.Helper.fileURL;
 
 /**
@@ -105,7 +106,7 @@ public class MCQController {
 
         model.addAttribute("date", date);
         model.addAttribute("mcqCommand", mcqCommand);
-        return "mcq/mcq";
+        return MCQ;
     }
 
     @PostMapping(value = "/mcq")

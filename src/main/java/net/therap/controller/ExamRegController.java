@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
+import static net.therap.util.Helper.REGISTERED;
+
 /**
  * @author masud.rana
  * @since 6/7/21
@@ -40,13 +42,13 @@ public class ExamRegController {
         int userId = Integer.parseInt(session.getAttribute("userId").toString());
 
         if (Objects.nonNull(examRegService.findById(examId, userId))) {
-            return "warnings/registered";
+            return REGISTERED;
         }
 
         Student student = userService.findStudent(userId);
         Exam exam = examService.find(examId);
         examRegService.saveOrUpdate(exam, student);
 
-        return "warnings/registered";
+        return REGISTERED;
     }
 }

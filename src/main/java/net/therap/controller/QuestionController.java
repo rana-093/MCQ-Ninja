@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+import static net.therap.util.Helper.QUESTION;
+import static net.therap.util.Helper.QUESTIONLIST;
+
 /**
  * @author masud.rana
  * @since 3/7/21
@@ -57,7 +60,7 @@ public class QuestionController {
     public String showAll(Model model) {
         List<Question> questionList = questionService.findAll();
         model.addAttribute("questionList", questionList);
-        return "question/questionList";
+        return QUESTIONLIST;
     }
 
     @GetMapping(value = "/question")
@@ -68,16 +71,15 @@ public class QuestionController {
             throw new RuntimeException();
         }
         setUpReferenceData(question, model);
+
         model.addAttribute("question", question);
-        return "question/question";
+
+        return QUESTION;
     }
 
     @PostMapping(value = "/question")
     public String process(@Valid @ModelAttribute("question") Question question,
                           BindingResult result,
-                          @SessionAttribute("question") Question q1,
-                          @SessionAttribute("topicList") List<Topic> topicList,
-                          Model model,
                           SessionStatus status) {
 
         if (result.hasErrors()) {
@@ -86,12 +88,14 @@ public class QuestionController {
 
         questionService.saveOrUpdate(question);
         status.setComplete();
+
         return "redirect:/questionList";
     }
 
     @GetMapping(value = "/questionRemove")
     public String questionRemove(@RequestParam("id") int questionId) {
         questionService.remove(questionId);
+
         return "redirect:/questionList";
     }
 

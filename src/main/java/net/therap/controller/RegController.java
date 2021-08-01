@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import static net.therap.util.Helper.*;
+
 /**
  * @author masud.rana
  * @since 29/6/21
@@ -42,21 +44,21 @@ public class RegController implements Serializable {
 
     @GetMapping(value = "/home")
     public String showHome() {
-        return "home";
+        return HOME;
     }
 
     @GetMapping(value = "/registerStudent")
     public String showStudentRegister(Model model) {
         model.addAttribute("student", new Student());
-        return "auth/studentRegister";
+        return STUDENT_REGISTER;
     }
 
     @PostMapping(value = "/registerStudent")
-    public String processStudentRegister(@Valid @ModelAttribute("student") Student student,
+    public String processStudentRegister(@Valid @ModelAttribute Student student,
                                          BindingResult result) throws IOException {
 
         if (result.hasErrors()) {
-            return "auth/studentRegister";
+            return STUDENT_REGISTER;
         }
 
         student.setData(student.getImageFile());
@@ -68,17 +70,20 @@ public class RegController implements Serializable {
     @GetMapping(value = "/registerAdmin")
     public String showAdminRegister(Model model) {
         model.addAttribute("admin", new Admin());
-        return "auth/adminRegister";
+
+        return ADMIN_REGISTER;
     }
 
     @PostMapping(value = "/registerAdmin")
-    public String processAdminRegister(@Valid @ModelAttribute("admin") Admin admin,
+    public String processAdminRegister(@Valid @ModelAttribute Admin admin,
                                        BindingResult result) {
         if (result.hasErrors()) {
-            return "auth/adminRegister";
+            return ADMIN_REGISTER;
         }
+
         admin.setActive(true);
         userService.saveOrUpdate(admin);
+
         return "redirect:/home";
     }
 }

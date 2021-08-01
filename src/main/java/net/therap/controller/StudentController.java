@@ -24,6 +24,9 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
 
+import static net.therap.util.Helper.EDIT_PROFILE;
+import static net.therap.util.Helper.SHOW_PROFILE;
+
 /**
  * @author masud.rana
  * @since 11/7/21
@@ -64,7 +67,7 @@ public class StudentController {
 
         model.addAttribute("student", student);
 
-        return "profile/show";
+        return SHOW_PROFILE;
     }
 
     @GetMapping(value = "/editProfile")
@@ -76,7 +79,7 @@ public class StudentController {
 
         Access.checkAccessWithId(userId, request);
 
-        return "profile/edit";
+        return EDIT_PROFILE;
     }
 
     @PostMapping(value = "/editProfile")
@@ -87,7 +90,7 @@ public class StudentController {
         Access.checkAccessWithId(student.getId(), request);
 
         if (result.hasErrors()) {
-            return "profile/edit";
+            return EDIT_PROFILE;
         }
 
         userService.saveOrUpdate(student);
