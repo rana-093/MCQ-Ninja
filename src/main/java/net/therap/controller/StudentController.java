@@ -1,10 +1,13 @@
 package net.therap.controller;
 
+import net.therap.exception.NotFoundException;
 import net.therap.exception.WebSecurityException;
 import net.therap.model.Student;
 import net.therap.service.UserService;
 import net.therap.util.Access;
 import net.therap.validation.RegistrationValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +15,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Objects;
 
 /**
  * @author masud.rana
@@ -24,6 +31,8 @@ import javax.validation.Valid;
 @Controller
 @SessionAttributes("student")
 public class StudentController {
+
+    Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     @Autowired
     private UserService userService;
@@ -37,10 +46,22 @@ public class StudentController {
     @GetMapping(value = "/showProfile")
     public String showProfile(@RequestParam(defaultValue = "0") int id,
                               Model model, HttpServletRequest request) throws Exception {
-        if (!Access.checkAccessWithId(id, request)) {
-            throw new WebSecurityException("Vilotaion of Web Security..!");
-        }
+
+        //Access.checkAccessWithId(id, request);
+
         Student student = userService.findStudent(id);
+
+        if (Objects.isNull(student)) {
+            throw new NotFoundException(id);
+        }
+
+        logger.info("Image File: " + student.getImage().toString());
+
+        byte[] encodeBase64 = Base64.getEncoder().encode(student.getImage());
+        String base64Encoded = new String(encodeBase64, "UTF-8");
+
+        student.setBase64image(base64Encoded);
+
         model.addAttribute("student", student);
 
         return "profile/show";
@@ -48,13 +69,12 @@ public class StudentController {
 
     @GetMapping(value = "/editProfile")
     public String show(@ModelAttribute("student") Student student,
-                       HttpServletRequest request) {
+                       HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession(false);
         Object sessionId = session.getAttribute("userId");
         int userId = Integer.parseInt(sessionId.toString());
-        if (!Access.checkAccessWithObject(userId, student, request)) {
-            return "warnings/restricted";
-        }
+
+        Access.checkAccessWithId(userId, request);
 
         return "profile/edit";
     }
@@ -62,13 +82,14 @@ public class StudentController {
     @PostMapping(value = "/editProfile")
     public String process(@Valid @ModelAttribute("student") Student student,
                           BindingResult result, HttpServletRequest request,
-                          SessionStatus status) {
-        if (!Access.checkAccessWithId(student.getId(), request)) {
-            return "warnings/restricted";
-        }
+                          SessionStatus status) throws WebSecurityException {
+
+        Access.checkAccessWithId(student.getId(), request);
+
         if (result.hasErrors()) {
             return "profile/edit";
         }
+
         userService.saveOrUpdate(student);
         status.setComplete();
 

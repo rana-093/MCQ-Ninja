@@ -13,6 +13,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "topic")
 @NamedQuery(name = "findAllTopics", query = "SELECT t FROM Topic t")
+@NamedQuery(name = "findByTopicName", query = "SELECT t FROM Topic t WHERE t.name=:name")
 public class Topic implements Serializable {
 
     private static final long serialVersionUID = 1L;

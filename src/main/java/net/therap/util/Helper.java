@@ -14,6 +14,8 @@ public interface Helper {
         STUDENT
     }
 
+    String fileURL = "/home/masud.rana/Desktop/Final-Project of Ashraf Vai/src/main/resources/AllFiles";
+
     List<String> ALLOWED_URLS = Arrays.asList(
             "http://localhost:8080/login",
             "http://localhost:8080/logout",

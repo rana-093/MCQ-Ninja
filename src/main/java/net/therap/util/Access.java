@@ -1,6 +1,7 @@
 package net.therap.util;
 
 import net.therap.dao.UserDao;
+import net.therap.exception.WebSecurityException;
 import net.therap.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,21 +15,21 @@ import java.util.Objects;
  */
 public class Access {
 
-    private static UserDao userDao;
-
-    public static boolean checkAccessWithId(int id, HttpServletRequest request) {
+    public static void checkAccessWithId(int id, HttpServletRequest request) throws WebSecurityException {
         HttpSession session = request.getSession(false);
         Object sessionId = session.getAttribute("userId");
         int userId = Integer.parseInt(sessionId.toString());
-        return id == userId;
+        if(id!=userId) {
+            throw  new WebSecurityException("Violation of Web security..");
+        }
     }
 
-    public static boolean checkAccessWithObject(int id, Object obj, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        Object sessionId = session.getAttribute("userId");
-        int userId = Integer.parseInt(sessionId.toString());
-        userDao = new UserDao();
-        Student student = userDao.findStudent(userId);
-        return Objects.equals(obj, student);
-    }
+//    public static boolean checkAccessWithObject(int id, Object obj, HttpServletRequest request) {
+//        HttpSession session = request.getSession(false);
+//        Object sessionId = session.getAttribute("userId");
+//        int userId = Integer.parseInt(sessionId.toString());
+//        userDao = new UserDao();
+//        Student student = userDao.findStudent(userId);
+//        return Objects.equals(obj, student);
+//    }
 }

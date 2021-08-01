@@ -9,6 +9,7 @@ import net.therap.propertyEditor.TopicEditor;
 import net.therap.service.ExamService;
 import net.therap.service.QuestionService;
 import net.therap.service.TopicService;
+import net.therap.util.CSVReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +17,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,6 +44,9 @@ public class QuestionController {
     @Autowired
     private ExamService examService;
 
+    @Autowired
+    private CSVReader csvReader;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.setDisallowedFields("id");
@@ -49,17 +55,17 @@ public class QuestionController {
 
     @GetMapping(value = "/questionList")
     public String showAll(Model model) {
-        List questionList = questionService.findAll();
+        List<Question> questionList = questionService.findAll();
         model.addAttribute("questionList", questionList);
         return "question/questionList";
     }
 
     @GetMapping(value = "/question")
     public String show(@RequestParam(value = "id", required = false, defaultValue = "0")
-                               int id, Model model) throws Exception {
+                               int id, Model model) {
         Question question = (id == 0) ? new Question() : questionService.find(id);
         if (Objects.isNull(question)) {
-            throw new NotFoundException(id);
+            throw new RuntimeException();
         }
         setUpReferenceData(question, model);
         model.addAttribute("question", question);
@@ -73,11 +79,11 @@ public class QuestionController {
                           @SessionAttribute("topicList") List<Topic> topicList,
                           Model model,
                           SessionStatus status) {
+
         if (result.hasErrors()) {
-            model.addAttribute("question", q1);
-            model.addAttribute("topicList", topicList);
             return "question/question";
         }
+
         questionService.saveOrUpdate(question);
         status.setComplete();
         return "redirect:/questionList";
@@ -87,6 +93,12 @@ public class QuestionController {
     public String questionRemove(@RequestParam("id") int questionId) {
         questionService.remove(questionId);
         return "redirect:/questionList";
+    }
+
+    @PostMapping(value = "/uploadCSV")
+    public void uploadCSV(@RequestParam("file") MultipartFile file) throws IOException {
+        List<Question> questionList = csvReader.fetchQuestionsFromCSV(file.getOriginalFilename());
+        questionService.saveAll(questionList);
     }
 
     @GetMapping(value = "/removeFromExam/{examId}")
@@ -102,7 +114,7 @@ public class QuestionController {
     }
 
     private void setUpReferenceData(Question question, Model model) {
-        List topicList = topicService.findAll();
+        List<Topic> topicList = topicService.findAll();
         List<Option> options = question.getOptionList();
         if (options.size() == 0) {
             for (int i = 0; i < 4; i++) {

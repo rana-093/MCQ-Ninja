@@ -55,6 +55,7 @@ public class ResultController {
         int userId = Integer.parseInt(session.getAttribute("userId").toString());
 
         UserExamRegistration userExamRegistration = examRegService.findById(examId, userId);
+
         if (Objects.isNull(userExamRegistration)) {
             return "warnings/notRegistered";
         }

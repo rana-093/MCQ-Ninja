@@ -75,7 +75,7 @@
         <h1><spring:message code="exam.setExam"/></h1>
         <div class="card">
             <div class="card-body">
-                <form:form action="/exam" method="post" modelAttribute="examCommand">
+                <form:form action="/exam" method="post" modelAttribute="examCommand" enctype="multipart/form-data">
 
                     <%--                    <div class="form-group row">--%>
                     <%--                        <form:label path="startDate" class="col-sm-2 col-form-label">--%>
@@ -131,6 +131,20 @@
                                     <form:option label="${topic.name}" value="${topic.id}"/>
                                 </c:forEach>
                             </form:select>
+                        </div>
+                    </div>
+
+                    <form:hidden path="exam.instructionsFilePath"/>
+
+                    <div class="form-group row">
+                        <form:label path="exam.instructionsFile" class="col-sm-2 col-form-label">
+                            Upload Instructions File:
+                        </form:label>
+                        <div class="col-sm-7">
+
+                            <form:input type="file" cssClass="form-control" path="exam.instructionsFile"
+                                        placeholder="Upload image"/>
+                            <form:errors path="exam.instructionsFile" cssStyle="color: #ff0000;"/>
                         </div>
                     </div>
 

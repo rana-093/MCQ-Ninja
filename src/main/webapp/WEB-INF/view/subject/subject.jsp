@@ -3,44 +3,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-<head>
-    <title><spring:message code="header.subject"/></title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
-        <%@include file="/WEB-INF/css/authStyle-1.0.0.css" %>
-    </style>
-</head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-warning">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    <spring:message code="header.subject"/>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                    <a class="dropdown-item" href="<c:url value="subject"/>"><spring:message
-                            code="prompt.subject"/> </a>
-                    <a class="dropdown-item" href="<c:url value="subjectList"/>"><spring:message
-                            code="prompt.subjectList"/> </a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/logout"><spring:message code="header.logout"/> </a>
-            </li>
-        </ul>
-    </div>
-</nav>
 <div class="Wrapper">
     <form:form action="/subject" method="post" modelAttribute="subject">
-        <form:hidden path="id"></form:hidden>
+        <form:hidden path="id"/>
         <form:label path="name"><spring:message code="header.name"/></form:label>
         <form:input path="name" cssClass="form-control"/>
         <form:errors path="name" cssClass="error" cssStyle="color: red"/><br>

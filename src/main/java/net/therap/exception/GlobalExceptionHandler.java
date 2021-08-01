@@ -4,6 +4,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.IOException;
+
 /**
  * @author masud.rana
  * @since 15/7/21
@@ -19,6 +21,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(WebSecurityException.class)
     public String handleWebSecurityException(Model model, Exception exception) {
+        model.addAttribute("exception", exception);
+        return "warnings/error";
+    }
+
+    @ExceptionHandler(IOException.class)
+    public String handleIOException(Model model, Exception exception) {
         model.addAttribute("exception", exception);
         return "warnings/error";
     }

@@ -22,7 +22,6 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@ComponentScan({"net.therap"})
 public class JpaConfig {
 
     @Bean

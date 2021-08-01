@@ -3,6 +3,8 @@ package net.therap.controller;
 import net.therap.model.Student;
 import net.therap.model.User;
 import net.therap.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +25,15 @@ import java.util.Objects;
 @Controller
 public class UserController {
 
+    Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserService userService;
 
     @GetMapping(value = "/userList")
     public String showAll(Model model) {
         List studentList = userService.findAllStudents();
-        System.out.println(studentList+" , , , , , ");
+        System.out.println(studentList + " , , , , , ");
         model.addAttribute("studentList", studentList);
         return "user/studentList";
     }
@@ -40,7 +44,7 @@ public class UserController {
         if (Objects.isNull(student)) {
             return "warnings/404";
         }
-        System.out.println("student: "+ student.getEmail()+" , id: "+ id);
+        System.out.println("student: " + student.getEmail() + " , id: " + id);
         model.addAttribute("student", student);
         return "user/student";
     }
@@ -52,6 +56,7 @@ public class UserController {
             model.addAttribute("student", student);
             return "user/student";
         }
+        logger.info("IN PROFILE EDIT: " + student.getImage().toString());
         userService.saveOrUpdate(student);
         return "redirect:/userList";
     }

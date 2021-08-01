@@ -6,6 +6,7 @@ import net.therap.model.Option;
 import net.therap.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class QuestionService {
         return questionDao.find(id);
     }
 
-    public List findAll() {
+    public List<Question> findAll() {
         return questionDao.findAll();
     }
 
@@ -41,6 +42,21 @@ public class QuestionService {
             }
         }
         questionDao.saveOrUpdate(q);
+    }
+
+    @Transactional
+    public void saveAll(List<Question> questionList) {
+        for (Question q : questionList) {
+            if (q.isNew()) {
+                int cur = q.getCorrectOption();
+                Option option = q.getOptionList().get(cur);
+                option.setCorrect(true);
+                for (Option op : q.getOptionList()) {
+                    op.setQuestion(q);
+                }
+            }
+            questionDao.saveOrUpdate(q);
+        }
     }
 
     public void remove(int questionId) {

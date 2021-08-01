@@ -29,11 +29,11 @@ public class AuthController {
     private UserService userService;
 
     @Autowired
-    private LogInValidator validateLogIn;
+    private LogInValidator logInValidator;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.addValidators(validateLogIn);
+        binder.addValidators(logInValidator);
         binder.setDisallowedFields("name");
     }
 

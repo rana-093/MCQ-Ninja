@@ -56,6 +56,15 @@
                 </div>
             </div>
 
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    Image:
+                </div>
+                <div class="col-sm-7">
+                    <img alt="img" src="data:image/png;base64,${sessionScope.student.base64image}"/>
+                </div>
+            </div>
+
             <a href="/editProfile">
                 <button type="submit" class="btn btn-primary">Edit Profile</button>
             </a>

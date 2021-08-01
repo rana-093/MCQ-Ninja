@@ -3,16 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
-<head>
-    <title>
-        <spring:message code="title.userRegisterForm"/>
-    </title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
-        <%@include file="/WEB-INF/css/authStyle-1.0.0.css" %>
-    </style>
-</head>
+
 <body class="Wrapper">
 <div class="container">
     <h1><spring:message code="user.userEdit"/></h1>
@@ -63,6 +54,7 @@
                         <form:errors path="contactNo" cssStyle="color: #ff0000;"/>
                     </div>
                 </div>
+                <form:hidden path="image"/>
                 <button type="submit" class="btn btn-primary"><spring:message code="user.save"/></button>
             </form:form>
         </div>

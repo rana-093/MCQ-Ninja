@@ -26,7 +26,7 @@ public class QuestionDao {
     }
 
     public List<Question> findAll() {
-        Query questionList = em.createNamedQuery("findAllQuestions");
+        TypedQuery<Question> questionList = em.createNamedQuery("findAllQuestions", Question.class);
         return questionList.getResultList();
     }
 

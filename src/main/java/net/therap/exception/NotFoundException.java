@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 public class NotFoundException extends Exception {
 
-    private static final long serialVersionUID = -3387516993124229948L;
-
     public NotFoundException(int id) {
         super("Object Not Found with id: " + id);
     }

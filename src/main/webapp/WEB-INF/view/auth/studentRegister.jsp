@@ -35,7 +35,7 @@
         <h1><spring:message code="title.userRegisterForm"/></h1>
         <div class="card">
             <div class="card-body">
-                <form:form action="/registerStudent" method="post" modelAttribute="student">
+                <form:form action="/registerStudent" method="post" modelAttribute="student" enctype="multipart/form-data">
                     <form:hidden path="id"/>
                     <div class="form-group row">
                         <form:label path="name" class="col-sm-2 col-form-label">
@@ -80,6 +80,18 @@
                             <form:errors path="contactNo" cssStyle="color: #ff0000;"/>
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <form:label path="imageFile" class="col-sm-2 col-form-label">
+                            Upload an image of You:
+                        </form:label>
+                        <div class="col-sm-7">
+                            <form:input type="file" cssClass="form-control" path="imageFile"
+                                        placeholder="Upload image"/>
+                            <form:errors path="imageFile" cssStyle="color: #ff0000;"/>
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-primary"><spring:message code="user.register"/></button>
                 </form:form>
             </div>

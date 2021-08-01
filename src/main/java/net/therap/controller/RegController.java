@@ -13,15 +13,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * @author masud.rana
  * @since 29/6/21
  */
 @Controller
-public class RegController {
+public class RegController implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Autowired
     private UserService userService;
@@ -47,11 +53,15 @@ public class RegController {
 
     @PostMapping(value = "/registerStudent")
     public String processStudentRegister(@Valid @ModelAttribute("student") Student student,
-                                         BindingResult result) {
+                                         BindingResult result) throws IOException {
+
         if (result.hasErrors()) {
             return "auth/studentRegister";
         }
+
+        student.setData(student.getImageFile());
         userService.saveOrUpdate(student);
+
         return "redirect:/home";
     }
 
@@ -62,7 +72,8 @@ public class RegController {
     }
 
     @PostMapping(value = "/registerAdmin")
-    public String processAdminRegister(@Valid @ModelAttribute("admin") Admin admin, BindingResult result) {
+    public String processAdminRegister(@Valid @ModelAttribute("admin") Admin admin,
+                                       BindingResult result) {
         if (result.hasErrors()) {
             return "auth/adminRegister";
         }

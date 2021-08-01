@@ -17,7 +17,7 @@ import static net.therap.util.Helper.ALL_URLS;
  * @author masud.rana
  * @since 30/6/21
  */
-@WebFilter("/*")
+//@WebFilter("/*")
 public class SecurityFilter implements Filter {
 
     @Override
@@ -31,7 +31,9 @@ public class SecurityFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         String url = req.getRequestURL().toString();
         System.out.println("URL: " + url);
+
         res.setHeader("Cache-control", "no-cache, no-store, must-revalidate");
+
         if (Helper.ALLOWED_URLS.contains(url)) {
             chain.doFilter(req, res);
         } else {

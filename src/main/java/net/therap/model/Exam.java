@@ -1,5 +1,7 @@
 package net.therap.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -47,6 +49,11 @@ public class Exam implements Serializable {
             joinColumns = {@JoinColumn(name = "exam_id")},
             inverseJoinColumns = {@JoinColumn(name = "question_id")})
     private List<Question> questions;
+
+    private String instructionsFilePath;
+
+    @Transient
+    private MultipartFile instructionsFile;
 
     public List<Question> getQuestions() {
         return questions;
@@ -99,6 +106,22 @@ public class Exam implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public MultipartFile getInstructionsFile() {
+        return instructionsFile;
+    }
+
+    public String getInstructionsFilePath() {
+        return instructionsFilePath;
+    }
+
+    public void setInstructionsFilePath(String instructionsFilePath) {
+        this.instructionsFilePath = instructionsFilePath;
+    }
+
+    public void setInstructionsFile(MultipartFile instructionsFile) {
+        this.instructionsFile = instructionsFile;
     }
 
     @Override

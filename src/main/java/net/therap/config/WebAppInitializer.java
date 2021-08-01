@@ -1,10 +1,12 @@
 package net.therap.config;
 
+import net.therap.filter.CustomizedSitemeshFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -20,6 +22,9 @@ public class WebAppInitializer implements WebApplicationInitializer {
         AnnotationConfigWebApplicationContext root =
                 new AnnotationConfigWebApplicationContext();
         root.register(WebConfig.class);
+
+        FilterRegistration.Dynamic filter =  sc.addFilter("prerender", CustomizedSitemeshFilter.class);
+        filter.addMappingForUrlPatterns(null , true, "/*");
 
         DispatcherServlet dispatcherServlet = new DispatcherServlet(root);
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);

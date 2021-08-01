@@ -1,24 +1,39 @@
 package net.therap.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import net.therap.command.MCQCommand;
 import net.therap.command.QuestionCommand;
 import net.therap.dao.OptionDao;
 import net.therap.model.*;
 import net.therap.service.*;
 import net.therap.util.AnswerUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
+import static net.therap.util.Helper.fileURL;
 
 /**
  * @author masud.rana
@@ -27,6 +42,8 @@ import java.util.Objects;
 @Controller
 @SessionAttributes("mcqCommand")
 public class MCQController {
+
+    private static final Logger logger = LoggerFactory.getLogger(MCQController.class);
 
     @Autowired
     private ExamService examService;
@@ -43,22 +60,42 @@ public class MCQController {
     @Autowired
     private ResultService resultService;
 
+    @GetMapping(value = "/openPDF/{fileName}")
+    public ResponseEntity<InputStreamResource> openPDF(@PathVariable("fileName") String fileName) throws FileNotFoundException {
+
+        logger.info("Okay From the OpenPDF");
+
+        String filePath = fileURL + "/";
+        File file = new File(filePath + fileName);
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.add("content-disposition", "inline;filename=" + fileName);
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/pdf"))
+                .body(resource);
+    }
+
+
     @GetMapping(value = "/mcq")
     public String showMcq(@RequestParam(value = "id", required = false, defaultValue = "0") int examId,
                           Model model,
                           HttpServletRequest request) {
         Exam exam = (examId == 0) ? new Exam() : examService.find(examId);
 
-        HttpSession session = request.getSession(false);
-        int userId = Integer.parseInt(session.getAttribute("userId").toString());
+//        HttpSession session = request.getSession(false);
+//        int userId = Integer.parseInt(session.getAttribute("userId").toString());
+//
+//        if (Objects.isNull(examRegService.findById(examId, userId))) {
+//            return "warnings/notRegistered";
+//        }
 
-        if (Objects.isNull(examRegService.findById(examId, userId))) {
-            return "warnings/notRegistered";
-        }
-
-        if (Objects.nonNull(resultService.findByUserExamId(examId, userId))) {
-            return "warnings/alreadyAppeared";
-        }
+//        if (Objects.nonNull(resultService.findByUserExamId(examId, userId))) {
+//            return "warnings/alreadyAppeared";
+//        }
 
         MCQCommand mcqCommand = new MCQCommand();
         mcqCommand.setExam(exam);

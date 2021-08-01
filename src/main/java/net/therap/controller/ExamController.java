@@ -13,20 +13,26 @@ import net.therap.validation.ExamValidator;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.jws.WebParam;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
+import static net.therap.util.Helper.fileURL;
 
 /**
  * @author masud.rana
@@ -106,7 +112,7 @@ public class ExamController {
 
     @PostMapping(value = "/exam")
     public String process(@Valid @ModelAttribute("examCommand") ExamCommand examCommand,
-                          BindingResult result) {
+                          BindingResult result) throws IOException {
         if (result.hasErrors()) {
             return "exam/exam";
         }
@@ -127,11 +133,22 @@ public class ExamController {
 
     @PostMapping(value = "/examTopic")
     public String setQuestions(@Valid @ModelAttribute("examCommand") ExamCommand examCommand,
-                               SessionStatus status) {
+                               SessionStatus status) throws IOException {
         if (examCommand.getQuestionList().size() == 0) {
             return "exam/chooseQuestions";
         }
-        examService.saveOrUpdate(examCommand.getExam());
+
+        String fileName = examCommand.getExam().getInstructionsFile().getOriginalFilename();
+
+        if (Objects.nonNull(fileName)) {
+            String destURL = fileURL + "/" + fileName;
+            MultipartFile srcFile = examCommand.getExam().getInstructionsFile();
+
+            examService.saveOrUpdateWithInstructionsFile(examCommand.getExam(), destURL, srcFile);
+        } else {
+            examService.saveOrUpdate(examCommand.getExam());
+        }
+
         status.setComplete();
 
         return "redirect:/examList";

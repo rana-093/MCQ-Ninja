@@ -28,6 +28,11 @@
     <h2 style="color: blue">Questions of the exam are as follows: </h2>
     <div class="card" style="margin-top: 50px;">
         <div class="card-body">
+            <a href="/openPDF/${mcqCommand.exam.instructionsFilePath}"
+               style="margin-bottom: 30px">
+                <button class="btn btn-primary">Instructions File for the exam
+                </button>
+            </a>
             <form:form action="/mcq" method="post" modelAttribute="mcqCommand" id="mcqForm" name="mcqForm">
                 <h3>Exam Name: <c:out value="${mcqCommand.exam.name}"/></h3>
                 <c:forEach items="${mcqCommand.questionCommandList}" var="questionCommand" varStatus="status">
@@ -55,9 +60,10 @@
 </div>
 
 <script>
+
     let day1 = new Date();
     let day2 = new Date(<c:out value="${date}"/>);
-    let duration = Math.floor(Math.abs(day2 - day1) / 1000);
+    let duration = Math.floor(day2 - day1) / 1000;
     const counter = document.getElementById('counter');
     let x = setInterval(updateCountDown, 1000);
 

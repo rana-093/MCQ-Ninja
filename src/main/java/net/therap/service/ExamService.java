@@ -12,8 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Query;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -46,6 +49,13 @@ public class ExamService {
 
     public List<Exam> findAllPastExams() {
         return examDao.findAllPastExams();
+    }
+
+    @Transactional
+    public void saveOrUpdateWithInstructionsFile(Exam exam, String destPath, MultipartFile file) throws IOException {
+        file.transferTo(Paths.get(destPath));
+        exam.setInstructionsFilePath(file.getOriginalFilename());
+        examDao.saveOrUpdate(exam);
     }
 
     public void saveOrUpdate(Exam exam) {

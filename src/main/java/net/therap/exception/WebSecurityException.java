@@ -6,8 +6,6 @@ package net.therap.exception;
  */
 public class WebSecurityException extends Exception {
 
-    private static final long serialVersionUID = -3387516993124229948L;
-
     public WebSecurityException(String message) {
         super(message);
     }
