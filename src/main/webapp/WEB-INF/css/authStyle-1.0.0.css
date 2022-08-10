@@ -1,0 +1,16 @@
+.Wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 10px;
+    min-height: 70vh;
+    font-family: "Roboto Thin";
+    font-style: italic;
+}
+
+.formWrapper {
+    margin: 20px;
+    width: 300px;
+    background-color: bisque;
+}

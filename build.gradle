@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'org.akhikhl.gretty' version '2.0.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+gretty {
+    contextPath = "/"
+}
+
+def springVersion = '5.3.5'
+def mySqlVersion = '8.0.21'
+def jstlVersion = '1.2'
+def hibernateCoreVersion = '5.4.26.Final'
+def hibernateValidatorVersion = '6.1.5.Final'
+def servletVersion = '3.1.0'
+
+dependencies {
+    runtimeOnly group: 'mysql', name: 'mysql-connector-java', version: mySqlVersion
+    implementation group: 'org.hibernate', name: 'hibernate-core', version: hibernateCoreVersion
+    implementation group: 'org.hibernate', name: 'hibernate-validator', version: hibernateValidatorVersion
+    implementation group: 'org.springframework', name: 'spring-core', version: springVersion
+    implementation group: 'org.springframework', name: 'spring-webmvc', version: springVersion
+    implementation group: 'org.springframework', name: 'spring-orm', version: springVersion
+    implementation group: 'javax.servlet', name: 'jstl', version: jstlVersion
+    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: servletVersion
+}
